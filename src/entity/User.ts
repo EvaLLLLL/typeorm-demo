@@ -1,16 +1,21 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Comment } from './Comment'
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column('text')
-  firstName: string
+  @Column('varchar')
+  name: string
 
-  @Column('text')
-  lastName: string
+  @Column('int', { nullable: true })
+  age?: number
 
-  @Column('int')
-  age: number
+  @OneToMany(() => Comment, comment => comment.blog)
+  comments: Comment[]
+
+  constructor(configs: Omit<Partial<User>, 'id'>) {
+    Object.assign(this, configs)
+  }
 }

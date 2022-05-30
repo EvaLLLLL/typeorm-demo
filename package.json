@@ -14,12 +14,14 @@
   "dependencies": {
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.2",
+    "@types/ua-parser-js": "^0.7.36",
     "next": "12.1.6",
     "pg": "^8.7.3",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.2.45",
+    "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.18.2",

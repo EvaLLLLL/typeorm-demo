@@ -19,6 +19,7 @@ const Home: NextPage = ({
 }) => {
   const [addType, setAddType] = React.useState<'user'>()
   const [delType, setDelType] = React.useState<'user'>()
+  const [updateType, setUpdateType] = React.useState<'user'>()
   const [users, setUsers] = React.useState(originUsers)
   const add = async (type: 'user') => {
     let { data } = await axios.post('/api/add', type)
@@ -27,6 +28,11 @@ const Home: NextPage = ({
 
   const del = async (type: 'user') => {
     let { data } = await axios.post('/api/del', type)
+    setUsers(data?.users)
+  }
+
+  const update = async (type: 'user') => {
+    let { data } = await axios.post('/api/update', type)
     setUsers(data?.users)
   }
 
@@ -44,6 +50,7 @@ const Home: NextPage = ({
 
           <Button onClick={() => add(addType)}>add</Button>
         </div>
+
         <div className={styles.actionItem}>
           <Select
             style={{ marginRight: 10, width: 200 }}
@@ -54,6 +61,18 @@ const Home: NextPage = ({
           />
 
           <Button onClick={() => del(delType)}>del</Button>
+        </div>
+
+        <div className={styles.actionItem}>
+          <Select
+            style={{ marginRight: 10, width: 200 }}
+            value={updateType}
+            placeholder="选择一个想更新的类型"
+            options={[{ label: 'User', value: 'user' }]}
+            onChange={val => setUpdateType(val)}
+          />
+
+          <Button onClick={() => update(updateType)}>update</Button>
         </div>
       </div>
       <div className={styles.dataContainer}>

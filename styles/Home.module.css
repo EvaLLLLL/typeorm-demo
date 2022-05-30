@@ -1,5 +1,30 @@
 .container {
   padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.dataContainer {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.actions {
+
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.users {
+  outline: 1px solid tomato;
+}
+
+.blogs {
+  outline: 1px solid cadetblue;
 }
 
 .main {

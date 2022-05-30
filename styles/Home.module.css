@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
 }
@@ -7,10 +7,16 @@
 .dataContainer {
   display: grid;
   grid-template-columns: 50% 50%;
+  margin-top: 20px;
 }
 
 .actions {
-
+  display: flex;
+  position: fixed;
+  top: 2rem;
+  left: 63px;
+  width: 100%;
+  height: 40px;
 }
 
 .action-item {
@@ -20,11 +26,11 @@
 }
 
 .users {
-  outline: 1px solid tomato;
+  padding: 2rem;
 }
 
 .blogs {
-  outline: 1px solid cadetblue;
+  padding: 2rem;
 }
 
 .main {

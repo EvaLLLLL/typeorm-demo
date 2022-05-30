@@ -11,8 +11,9 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   let connection = await getDatabaseConnection()
-  let user = new User({ name: '111' })
-  await connection.manager.save(user)
+  let user = await connection.manager.findOne(User, { order: { id: -1 } })
+  await connection.manager.remove(user)
+
   let users = await connection.manager.find(User, { order: { id: -1 } })
   res.status(201).json({ users })
 }

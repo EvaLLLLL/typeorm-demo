@@ -14,7 +14,6 @@ export class CreateAutorsTable1653911368569 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           { name: 'name', type: 'varchar' },
-          { name: 'blog_ids', type: 'integer[]' },
         ],
       }),
     )

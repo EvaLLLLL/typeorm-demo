@@ -2,28 +2,25 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { User } from './User'
 import { Blog } from './Blog'
 
-@Entity()
+@Entity('comments')
 export class Comment {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column('int')
-  post_id: number
-
   @Column('text')
   content: string
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   user: User
 
-  @OneToOne(() => Blog)
+  @ManyToOne(() => Blog)
   @JoinColumn()
   blog: Blog
 }

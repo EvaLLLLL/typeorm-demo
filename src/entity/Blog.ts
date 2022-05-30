@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 import { Author } from './Author'
 import { Comment } from './Comment'
@@ -24,6 +26,12 @@ export class Blog {
 
   @ManyToMany(() => Author, author => author.blogs)
   authors: Author[]
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 
   constructor(configs: Omit<Partial<Blog>, 'id'>) {
     Object.assign(this, configs)

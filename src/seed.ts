@@ -1,21 +1,23 @@
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import { Blog } from './entity/Blog'
+import { Author } from './entity/Author'
 
 createConnection()
   .then(async connection => {
-    const posts = await connection.manager.find(Blog)
+    let blog1 = new Blog({ title: 'blog1', content: 'this is blog1' })
+    let blog2 = new Blog({ title: 'blog2', content: 'this is blog2' })
 
-    if (posts.length === 0) {
-      await connection.manager.save(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => {
-          return new Blog({ title: `post${n}`, content: `my #${n} post` })
-        }),
-      )
-    }
+    let blogRepository = connection.getRepository(Blog)
+    await blogRepository.save([blog1, blog2])
 
-    console.log('数据填充完毕')
+    let author = new Author({ name: 'max' })
+    author.blogs = [blog1, blog2]
 
-    await connection.close()
+    let authorRepository = connection.getRepository(Author)
+    await authorRepository.save(author)
+
+    let blogs = await blogRepository.find({ relations: ['authors'] })
+    console.log(blogs)
   })
   .catch(error => console.log(error))

@@ -18,4 +18,8 @@ export class Author {
   @ManyToMany(() => Blog, blog => blog.authors)
   @JoinTable()
   blogs: Blog[]
+
+  constructor(configs: Partial<Omit<Author, 'id'>>) {
+    Object.assign(this, configs)
+  }
 }

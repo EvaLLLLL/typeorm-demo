@@ -15,6 +15,7 @@ export class CreateUserTable1653910436198 implements MigrationInterface {
           },
           { name: 'name', type: 'varchar' },
           { name: 'age', type: 'int', isNullable: true },
+          { name: 'blog_ids', type: 'integer[]', isNullable: true },
         ],
       }),
     )

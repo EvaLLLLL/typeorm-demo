@@ -15,6 +15,8 @@ export class CreateBlogsTable1653910895101 implements MigrationInterface {
           },
           { name: 'title', type: 'varchar' },
           { name: 'content', type: 'text' },
+          { name: 'comment_ids', type: 'integer[]', isNullable: true },
+          { name: 'author_ids', type: 'integer[]', isNullable: true },
         ],
       }),
     )

@@ -13,9 +13,9 @@ export class CreateCommentsTable1653911213431 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'increment',
           },
-          { name: 'user_id', type: 'int' },
-          { name: 'post_id', type: 'int' },
           { name: 'content', type: 'text' },
+          { name: 'user_id', type: 'int' },
+          { name: 'blog_id', type: 'int' },
         ],
       }),
     )

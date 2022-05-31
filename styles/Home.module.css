@@ -25,11 +25,7 @@
   justify-content: space-between;
 }
 
-.users {
-  padding: 2rem;
-}
-
-.blogs {
+.dataItem {
   padding: 2rem;
 }
 

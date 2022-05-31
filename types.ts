@@ -17,3 +17,10 @@ export enum ActionType {
 }
 
 export type DataSourceType = User[] | Blog[] | Comment[] | Author[]
+
+export type Data = {
+  users: User[]
+  blogs: Blog[]
+  authors: Author[]
+  comments: Comment[]
+}

@@ -29,6 +29,7 @@ export const ActionItem: React.FC<{
       />
 
       <Button
+        style={{ marginRight: 36 }}
         onClick={() => {
           if (!value) {
             message.error('请选择类型')

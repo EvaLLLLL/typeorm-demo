@@ -1,12 +1,4 @@
-import { ActionType, DataType } from '../types'
-
-export const actionTypeToLabel = (type: ActionType) => {
-  return {
-    [ActionType.Add]: '添加',
-    [ActionType.Del]: '删除',
-    [ActionType.Update]: '更新',
-  }[type]
-}
+import { DataType } from '../types'
 
 export const dataTypeToLabel = (type: DataType) => {
   return {

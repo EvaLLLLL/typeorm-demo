@@ -10,6 +10,10 @@ export const UpdateUserModal: React.FC<ModalProps> = ({
 }) => {
   const [updateUserForm] = Form.useForm()
 
+  React.useEffect(() => {
+    updateUserForm.resetFields()
+  }, [visible, updateUserForm])
+
   return (
     <UpdateUserModalInner
       form={updateUserForm}

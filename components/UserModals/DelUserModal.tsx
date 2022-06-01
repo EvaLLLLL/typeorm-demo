@@ -10,6 +10,10 @@ export const DelUserModal: React.FC<ModalProps> = ({
 }) => {
   const [delUserForm] = Form.useForm()
 
+  React.useEffect(() => {
+    delUserForm.resetFields()
+  }, [visible, delUserForm])
+
   return (
     <DelUserModalInner
       form={delUserForm}

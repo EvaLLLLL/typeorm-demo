@@ -10,6 +10,10 @@ export const AddUserModal: React.FC<ModalProps> = ({
 }) => {
   const [addUserForm] = Form.useForm()
 
+  React.useEffect(() => {
+    addUserForm.resetFields()
+  }, [visible, addUserForm])
+
   return (
     <AddUserModalInner
       form={addUserForm}

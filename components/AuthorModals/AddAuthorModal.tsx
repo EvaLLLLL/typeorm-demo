@@ -12,6 +12,10 @@ export const AddAuthorModal: React.FC<ModalProps & { users: User[] }> = ({
 }) => {
   const [addAuthorForm] = Form.useForm()
 
+  React.useEffect(() => {
+    addAuthorForm.resetFields()
+  }, [visible, addAuthorForm])
+
   return (
     <AddUserModalInner
       users={users}

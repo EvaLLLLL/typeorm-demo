@@ -3,7 +3,6 @@ import { Blog } from '../src/entity/Blog'
 import { User } from '../src/entity/User'
 import { Author } from '../src/entity/Author'
 import { Comment } from '../src/entity/Comment'
-import { parseData } from './utils'
 
 export const loadData = async () => {
   let connection = await getDatabaseConnection()
@@ -24,6 +23,8 @@ export const loadData = async () => {
   const commentsData = await connection.manager.find(Comment, {
     order: { id: -1 },
   })
+
+  const parseData = (data: any) => JSON.parse(JSON.stringify(data))
 
   return {
     blogs: parseData(blogsData),

@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -34,6 +35,7 @@ export class Blog {
   comments: Comment[]
 
   @ManyToMany(() => Author, author => author.blogs)
+  @JoinTable()
   authors: Author[]
 
   @CreateDateColumn()

@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -25,10 +24,7 @@ export class Author {
   @JoinColumn()
   user: User
 
-  @ManyToMany(() => Blog, blog => blog.authors, {
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
+  @ManyToMany(() => Blog, blog => blog.authors)
   blogs: Blog[]
 
   constructor(configs: Partial<Omit<Author, 'id'>>) {

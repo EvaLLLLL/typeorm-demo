@@ -1,7 +1,11 @@
 import { Button } from 'antd'
 import React from 'react'
 import { ActionType, Data } from '../types'
-import { AddAuthorModal, DelAuthorModal } from './AuthorModals'
+import {
+  AddAuthorModal,
+  DelAuthorModal,
+  UpdateAuthorModal,
+} from './AuthorModals'
 import { User } from '../src/entity/User'
 
 export const AuthorActions: React.FC<{
@@ -11,6 +15,8 @@ export const AuthorActions: React.FC<{
   const [addAuthorModalVisible, setAddAuthorModalVisible] =
     React.useState(false)
   const [delAuthorModalVisible, setDelAuthorModalVisible] =
+    React.useState(false)
+  const [updateAuthorModalVisible, setUpdateAuthorModalVisible] =
     React.useState(false)
 
   return (
@@ -34,6 +40,15 @@ export const AuthorActions: React.FC<{
         }}
       />
 
+      <UpdateAuthorModal
+        visible={updateAuthorModalVisible}
+        onCancel={() => setUpdateAuthorModalVisible(false)}
+        onOk={newData => {
+          updateData(newData)
+          setUpdateAuthorModalVisible(false)
+        }}
+      />
+
       {[ActionType.Add, ActionType.Del, ActionType.Update].map(type => (
         <Button
           key={type}
@@ -46,6 +61,10 @@ export const AuthorActions: React.FC<{
 
             if (type === ActionType.Del) {
               setDelAuthorModalVisible(true)
+            }
+
+            if (type === ActionType.Update) {
+              setUpdateAuthorModalVisible(true)
             }
           }}
         >

@@ -1,25 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
-import { User } from '../../../src/entity/User'
 import { loadData } from '../../../lib/loadData'
+import { Author } from '../../../src/entity/Author'
 import { Data } from '../../../types'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data | String>,
+  res: NextApiResponse<Data>,
 ) {
   let connection = await getDatabaseConnection()
-  let user = await connection.manager.findOne(User, {
-    relations: ['author'],
+  let author = await connection.manager.findOne(Author, {
     where: [{ id: req.body.id }],
   })
 
-  if (user.author !== null) {
-    res.status(500).json('请先删除所关联 author')
-  } else {
-    await connection.manager.remove(user)
-    let data = await loadData()
+  author.name = req.body.name
 
-    res.status(200).json(data)
-  }
+  await connection.manager.save(author)
+
+  let data = await loadData()
+  res.status(200).json(data)
 }

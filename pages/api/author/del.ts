@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Data } from '../../../types'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
-import { User } from '../../../src/entity/User'
 import { loadData } from '../../../lib/loadData'
+import { Data } from '../../../types'
 import { Author } from '../../../src/entity/Author'
 
 export default async function handler(
@@ -10,14 +9,12 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   let connection = await getDatabaseConnection()
-  let { name, userId } = req.body
-  let author = new Author({ name })
 
-  author.user = await connection.manager.findOne(User, {
-    where: [{ id: userId }],
+  let author = await connection.manager.findOne(Author, {
+    where: [{ id: req.body.id }],
   })
 
-  await connection.manager.save(author)
+  await connection.manager.remove(author)
 
   let data = await loadData()
   res.status(200).json(data)

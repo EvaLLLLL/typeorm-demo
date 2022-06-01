@@ -10,11 +10,16 @@ export default async function handler(
 ) {
   let connection = await getDatabaseConnection()
   let user = await connection.manager.findOne(User, {
+    relations: ['author'],
     where: [{ id: req.body.id }],
   })
 
-  await connection.manager.remove(user)
+  if (user.author !== null) {
+    res.status(500).json('请先删除所关联 author' as any)
+  } else {
+    await connection.manager.remove(user)
+    let data = await loadData()
 
-  let data = await loadData()
-  res.status(200).json(data)
+    res.status(200).json(data)
+  }
 }

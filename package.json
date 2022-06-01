@@ -10,7 +10,8 @@
     "m:create": "typeorm migration:create -n",
     "m:run": "typeorm migration:run",
     "m:revert": "typeorm migration:revert",
-    "e:create": "typeorm entity:create -n"
+    "e:create": "typeorm entity:create -n",
+    "sync": "typeorm schema:sync"
   },
   "dependencies": {
     "@babel/cli": "^7.17.10",

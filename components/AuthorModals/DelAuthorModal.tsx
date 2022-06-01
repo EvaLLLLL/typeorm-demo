@@ -3,41 +3,35 @@ import { Form, Modal, InputNumber, message } from 'antd'
 import { ModalInnerProps, ModalProps } from '../../types'
 import axios from 'axios'
 
-export const DelUserModal: React.FC<ModalProps> = ({
+export const DelAuthorModal: React.FC<ModalProps> = ({
   visible,
   onCancel,
   onOk,
 }) => {
-  const [delUserForm] = Form.useForm()
+  const [delAuthorForm] = Form.useForm()
 
   React.useEffect(() => {
-    delUserForm.resetFields()
-  }, [visible, delUserForm])
+    delAuthorForm.resetFields()
+  }, [visible, delAuthorForm])
 
   return (
-    <DelUserModalInner
-      form={delUserForm}
+    <DelAuthorModalInner
+      form={delAuthorForm}
       visible={visible}
       onCancel={onCancel}
       onOk={async () => {
-        const values = await delUserForm.validateFields()
+        const values = await delAuthorForm.validateFields()
         if (!values) return
 
-        axios
-          .post('/api/user/del', values)
-          .then(({ data: newData }) => {
-            message.success('删除成功')
-            onOk(newData)
-          })
-          .catch(err => {
-            message.error(err.response.data)
-          })
+        const { data: newData } = await axios.post('/api/author/del', values)
+        message.success('删除成功')
+        onOk(newData)
       }}
     />
   )
 }
 
-const DelUserModalInner: React.FC<ModalInnerProps> = ({
+const DelAuthorModalInner: React.FC<ModalInnerProps> = ({
   visible,
   onCancel,
   form,
@@ -45,7 +39,7 @@ const DelUserModalInner: React.FC<ModalInnerProps> = ({
 }) => {
   return (
     <Modal
-      title="delete user"
+      title="delete author"
       visible={visible}
       onCancel={onCancel}
       onOk={onOk}

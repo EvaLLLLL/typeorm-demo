@@ -1,12 +1,38 @@
 import React from 'react'
-import { Form, Modal, FormInstance, InputNumber } from 'antd'
+import { Form, Modal, InputNumber, message } from 'antd'
+import { ModalInnerProps, ModalProps } from '../../types'
+import axios from 'axios'
 
-export const DelUserModal: React.FC<{
-  visible: boolean
-  onCancel: () => void
-  form: FormInstance
-  onOk: () => void | Promise<void>
-}> = ({ visible, onCancel, form, onOk }) => {
+export const DelUserModal: React.FC<ModalProps> = ({
+  visible,
+  onCancel,
+  onOk,
+}) => {
+  const [delUserForm] = Form.useForm()
+
+  return (
+    <DelUserModalInner
+      form={delUserForm}
+      visible={visible}
+      onCancel={onCancel}
+      onOk={async () => {
+        const values = await delUserForm.validateFields()
+        if (!values) return
+
+        const { data: newData } = await axios.post('/api/user/del', values)
+        message.success('删除成功')
+        onOk(newData)
+      }}
+    />
+  )
+}
+
+const DelUserModalInner: React.FC<ModalInnerProps> = ({
+  visible,
+  onCancel,
+  form,
+  onOk,
+}) => {
   return (
     <Modal
       title="delete user"

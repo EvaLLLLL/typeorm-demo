@@ -1,12 +1,38 @@
 import React from 'react'
-import { Form, Modal, Input, FormInstance, InputNumber } from 'antd'
+import { Form, Modal, Input, InputNumber, message } from 'antd'
+import { ModalInnerProps, ModalProps } from '../../types'
+import axios from 'axios'
 
-export const AddUserModal: React.FC<{
-  visible: boolean
-  onCancel: () => void
-  form: FormInstance
-  onOk: () => void | Promise<void>
-}> = ({ visible, onCancel, form, onOk }) => {
+export const AddUserModal: React.FC<ModalProps> = ({
+  visible,
+  onCancel,
+  onOk,
+}) => {
+  const [addUserForm] = Form.useForm()
+
+  return (
+    <AddUserModalInner
+      form={addUserForm}
+      visible={visible}
+      onCancel={onCancel}
+      onOk={async () => {
+        const values = await addUserForm.validateFields()
+        if (!values) return
+
+        const { data: newData } = await axios.post('/api/user/add', values)
+        message.success('添加成功')
+        onOk(newData)
+      }}
+    />
+  )
+}
+
+const AddUserModalInner: React.FC<ModalInnerProps> = ({
+  visible,
+  onCancel,
+  form,
+  onOk,
+}) => {
   return (
     <Modal
       destroyOnClose

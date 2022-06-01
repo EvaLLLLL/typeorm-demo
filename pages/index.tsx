@@ -33,7 +33,7 @@ const Home: NextPage = ({
   return (
     <div className={styles.container}>
       <div className={styles.dataContainer}>
-        {[DataType.User, DataType.Blog, DataType.Author, DataType.Comment].map(
+        {[DataType.User, DataType.Author, DataType.Blog, DataType.Comment].map(
           type => (
             <DataItem
               key={type}

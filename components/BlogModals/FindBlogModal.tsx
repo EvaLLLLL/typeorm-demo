@@ -41,7 +41,7 @@ const FindBlogModalInner: React.FC<ModalInnerProps> = ({
   onOk,
 }) => {
   return (
-    <Modal title="find blogs" visible={visible} onCancel={onCancel} onOk={onOk}>
+    <Modal title="find blog" visible={visible} onCancel={onCancel} onOk={onOk}>
       <Form
         autoComplete="off"
         form={form}
@@ -49,8 +49,8 @@ const FindBlogModalInner: React.FC<ModalInnerProps> = ({
         wrapperCol={{ span: 8 }}
       >
         <Form.Item
-          label="comments more than"
-          name="commentsCount"
+          label="find blog by id"
+          name="id"
           rules={[
             {
               required: true,

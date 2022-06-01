@@ -12,11 +12,12 @@ export default async function handler(
 
   let blogs = await connection.manager.find(Blog, {
     relations: ['authors', 'comments'],
+    where: { id: req.query.id },
   })
 
   let data = await loadData(connection)
   res.status(200).json({
     ...data,
-    blogs: data.blogs,
+    blogs,
   })
 }

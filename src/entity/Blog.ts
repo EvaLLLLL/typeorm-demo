@@ -17,6 +17,14 @@ export class Blog {
   @PrimaryGeneratedColumn('increment')
   id: number
 
+  @Column({ nullable: true, type: 'int' })
+  commentCount: number
+
+  @AfterLoad()
+  updateCount() {
+    this.commentCount = this.comments?.length || 0
+  }
+
   @Column('varchar')
   title: string
 

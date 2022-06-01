@@ -37,6 +37,7 @@ const Home: NextPage = ({
           type => (
             <DataItem
               key={type}
+              data={data}
               dataType={type}
               setData={setData}
               dataSource={data[dataTypeToKey(type)]}

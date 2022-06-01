@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -20,6 +21,7 @@ export class User {
   age?: number
 
   @OneToOne(() => Author, author => author.user)
+  @JoinColumn()
   author: Author
 
   @OneToMany(() => Comment, comment => comment.blog)

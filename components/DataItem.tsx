@@ -5,12 +5,14 @@ import { Card } from 'antd'
 import { Data, DataSourceType, DataType } from '../types'
 import { dataTypeToLabel } from '../lib/views'
 import { UserActions } from './UserActions'
+import { AuthorActions } from './AuthorActions'
 
 export const DataItem: React.FC<{
   setData: React.Dispatch<React.SetStateAction<Data>>
+  data: Data
   dataSource: DataSourceType
   dataType: DataType
-}> = ({ dataSource, dataType, setData }) => {
+}> = ({ dataSource, dataType, setData, data }) => {
   return (
     <>
       <div className={styles.dataItem}>
@@ -19,7 +21,13 @@ export const DataItem: React.FC<{
           size="small"
           extra={
             <>
-              <UserActions updateData={setData} />
+              {dataType === DataType.User ? (
+                <UserActions updateData={setData} />
+              ) : null}
+
+              {dataType === DataType.Author ? (
+                <AuthorActions updateData={setData} users={data.users} />
+              ) : null}
             </>
           }
         >

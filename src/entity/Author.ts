@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToOne,
@@ -19,7 +18,6 @@ export class Author {
   name: string
 
   @OneToOne(() => User, user => user.author)
-  @JoinColumn()
   user: User
 
   @ManyToMany(() => Blog, blog => blog.authors)

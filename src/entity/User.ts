@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { Comment } from './Comment'
+import { Author } from './Author'
 
 @Entity('users')
 export class User {
@@ -11,6 +18,9 @@ export class User {
 
   @Column('int', { nullable: true })
   age?: number
+
+  @OneToOne(() => Author, author => author.user)
+  author: Author
 
   @OneToMany(() => Comment, comment => comment.blog)
   comments: Comment[]

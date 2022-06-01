@@ -12,12 +12,12 @@ export const loadData = async () => {
     order: { updated_at: 1 },
   })
   const usersData = await connection.manager.find(User, {
-    relations: ['comments'],
+    relations: ['author', 'comments'],
     order: { id: -1 },
   })
 
   const authorsData = await connection.manager.find(Author, {
-    relations: ['blogs'],
+    relations: ['user', 'blogs'],
     order: { id: -1 },
   })
 

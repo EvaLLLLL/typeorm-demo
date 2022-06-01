@@ -6,7 +6,7 @@
   "password": "",
   "database": "pot_development",
   "synchronize": true,
-  "logging": ["error", "query"],
+  "logging": false,
   "entities": ["dist/entity/**/*.js"],
   "migrations": ["dist/migration/**/*.js"],
   "subscribers": ["dist/subscriber/**/*.js"],

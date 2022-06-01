@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
 import { User } from '../../../src/entity/User'
+import { loadData } from '../../../lib/loadData'
 
 type Data = {
   users: User[]
@@ -19,6 +20,6 @@ export default async function handler(
 
   await connection.manager.save(user)
 
-  let users = await connection.manager.find(User, { order: { id: -1 } })
-  res.status(200).json({ users })
+  let data = await loadData()
+  res.status(200).json(data)
 }

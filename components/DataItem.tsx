@@ -1,26 +1,42 @@
 import React from 'react'
+import axios from 'axios'
 import styles from '../styles/Home.module.css'
+import JSONPretty from 'react-json-pretty'
 import { Button, Card, Form, message } from 'antd'
 import { ActionType, Data, DataSourceType, DataType } from '../types'
 import { dataTypeToLabel } from '../lib/views'
-import JSONPretty from 'react-json-pretty'
-import { AddUserModal } from './AddUserModal'
-import axios from 'axios'
-import { DelUserModal } from './DelUserModal'
+import { AddUserModal, DelUserModal, UpdateUserModal } from './UserModals'
 
 export const DataItem: React.FC<{
-  data: Data
   setData: React.Dispatch<React.SetStateAction<Data>>
   dataSource: DataSourceType
   dataType: DataType
-}> = ({ dataSource, dataType, data, setData }) => {
+}> = ({ dataSource, dataType, setData }) => {
   const [addUserModalVisible, setAddUserModalVisible] = React.useState(false)
   const [delUserModalVisible, setDelUserModalVisible] = React.useState(false)
+  const [updateUserModalVisible, setUpdateUserModalVisible] =
+    React.useState(false)
   const [addUserForm] = Form.useForm()
   const [delUserForm] = Form.useForm()
+  const [updateUserForm] = Form.useForm()
 
   return (
     <>
+      <UpdateUserModal
+        form={updateUserForm}
+        visible={updateUserModalVisible}
+        onCancel={() => setUpdateUserModalVisible(false)}
+        onOk={async () => {
+          const values = await updateUserForm.validateFields()
+          if (!values) return
+
+          const { data: newData } = await axios.post('/api/user/update', values)
+          setData(newData)
+          message.success('更新成功')
+          setUpdateUserModalVisible(false)
+        }}
+      />
+
       <AddUserModal
         form={addUserForm}
         visible={addUserModalVisible}
@@ -70,6 +86,13 @@ export const DataItem: React.FC<{
 
                   if (type === ActionType.Del && dataType === DataType.User) {
                     setDelUserModalVisible(true)
+                  }
+
+                  if (
+                    type === ActionType.Update &&
+                    dataType === DataType.User
+                  ) {
+                    setUpdateUserModalVisible(true)
                   }
                 }}
               >

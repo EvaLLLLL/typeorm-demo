@@ -3,7 +3,7 @@ import React from 'react'
 import { ActionType, Data } from '../types'
 import { User } from '../src/entity/User'
 import { Blog } from '../src/entity/Blog'
-import { AddCommentModal } from './CommentModals'
+import { AddCommentModal, DelCommentModal } from './CommentModals'
 
 export const CommentActions: React.FC<{
   users: User[]
@@ -11,6 +11,8 @@ export const CommentActions: React.FC<{
   updateData: (newData: Data) => void
 }> = ({ updateData, users, blogs }) => {
   const [addCommentModalVisible, setAddCommentModalVisible] =
+    React.useState(false)
+  const [delCommentModalVisible, setDelCommentModalVisible] =
     React.useState(false)
 
   return (
@@ -26,6 +28,15 @@ export const CommentActions: React.FC<{
         }}
       />
 
+      <DelCommentModal
+        visible={delCommentModalVisible}
+        onCancel={() => setDelCommentModalVisible(false)}
+        onOk={newData => {
+          updateData(newData)
+          setDelCommentModalVisible(false)
+        }}
+      />
+
       {[ActionType.Add, ActionType.Del].map(type => (
         <Button
           key={type}
@@ -34,6 +45,10 @@ export const CommentActions: React.FC<{
           onClick={() => {
             if (type === ActionType.Add) {
               setAddCommentModalVisible(true)
+            }
+
+            if (type === ActionType.Del) {
+              setDelCommentModalVisible(true)
             }
           }}
         >

@@ -22,11 +22,13 @@ export class Comment {
   @Column({ nullable: true, type: 'int' })
   blogId: number
 
-  @ManyToOne(() => User, user => user.comments)
+  @ManyToOne(() => User, user => user.comments, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user: User
 
-  @ManyToOne(() => Blog, blog => blog.comments)
+  @ManyToOne(() => Blog, blog => blog.comments, { onDelete: 'CASCADE' })
   @JoinColumn()
   blog: Blog
 

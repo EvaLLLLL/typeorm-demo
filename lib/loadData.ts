@@ -8,7 +8,7 @@ import { parseData } from './utils'
 export const loadData = async () => {
   let connection = await getDatabaseConnection()
   const blogsData = await connection.manager.find(Blog, {
-    relations: ['authors'],
+    relations: ['authors', 'comments'],
     order: { updatedAt: -1 },
   })
   const usersData = await connection.manager.find(User, {

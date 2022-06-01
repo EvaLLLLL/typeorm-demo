@@ -25,7 +25,9 @@ export class Author {
   @JoinColumn()
   user: User
 
-  @ManyToMany(() => Blog, blog => blog.authors)
+  @ManyToMany(() => Blog, blog => blog.authors, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   blogs: Blog[]
 

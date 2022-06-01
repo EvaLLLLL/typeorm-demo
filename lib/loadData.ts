@@ -9,7 +9,7 @@ export const loadData = async () => {
   let connection = await getDatabaseConnection()
   const blogsData = await connection.manager.find(Blog, {
     relations: ['authors'],
-    order: { updated_at: 1 },
+    order: { updated_at: -1 },
   })
   const usersData = await connection.manager.find(User, {
     relations: ['author', 'comments'],

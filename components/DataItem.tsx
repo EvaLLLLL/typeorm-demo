@@ -6,6 +6,7 @@ import { Data, DataSourceType, DataType } from '../types'
 import { dataTypeToLabel } from '../lib/views'
 import { UserActions } from './UserActions'
 import { AuthorActions } from './AuthorActions'
+import { BlogActions } from './BlogActions'
 
 export const DataItem: React.FC<{
   setData: React.Dispatch<React.SetStateAction<Data>>
@@ -27,6 +28,10 @@ export const DataItem: React.FC<{
 
               {dataType === DataType.Author ? (
                 <AuthorActions updateData={setData} users={data.users} />
+              ) : null}
+
+              {dataType === DataType.Blog ? (
+                <BlogActions updateData={setData} authors={data.authors} />
               ) : null}
             </>
           }

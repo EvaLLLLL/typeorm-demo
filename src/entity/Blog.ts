@@ -28,10 +28,10 @@ export class Blog {
   authors: Author[]
 
   @CreateDateColumn()
-  created_at: Date
+  createdAt: Date
 
   @UpdateDateColumn()
-  updated_at: Date
+  updatedAt: Date
 
   constructor(configs: Omit<Partial<Blog>, 'id'>) {
     Object.assign(this, configs)

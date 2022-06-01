@@ -16,11 +16,21 @@ export class Comment {
   @Column('text')
   content: string
 
-  @ManyToOne(() => User)
+  @Column({ nullable: true, type: 'int' })
+  userId: number
+
+  @Column({ nullable: true, type: 'int' })
+  blogId: number
+
+  @ManyToOne(() => User, user => user.comments)
   @JoinColumn()
   user: User
 
-  @ManyToOne(() => Blog)
+  @ManyToOne(() => Blog, blog => blog.comments)
   @JoinColumn()
   blog: Blog
+
+  constructor(content: string) {
+    this.content = content
+  }
 }

@@ -18,6 +18,9 @@ export class Author {
   @Column('varchar')
   name: string
 
+  @Column({ nullable: true, type: 'int' })
+  userId: number
+
   @OneToOne(() => User, user => user.author)
   @JoinColumn()
   user: User

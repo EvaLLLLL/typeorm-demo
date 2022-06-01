@@ -6,13 +6,13 @@ export class AddCreatedAtAndUpdatedAt1653913250009
   public async up(queryRunner: QueryRunner): Promise<void> {
     return await queryRunner.addColumns('blogs', [
       new TableColumn({
-        name: 'created_at',
+        name: 'createdAt',
         type: 'timestamp',
         default: 'now()',
         isNullable: false,
       }),
       new TableColumn({
-        name: 'updated_at',
+        name: 'updatedAt',
         type: 'timestamp',
         default: 'now()',
         isNullable: false,
@@ -21,7 +21,7 @@ export class AddCreatedAtAndUpdatedAt1653913250009
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('blogs', 'created_at')
-    return await queryRunner.dropColumn('blogs', 'updated_at')
+    await queryRunner.dropColumn('blogs', 'createdAt')
+    return await queryRunner.dropColumn('blogs', 'updatedAt')
   }
 }

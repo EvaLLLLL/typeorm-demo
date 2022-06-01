@@ -9,9 +9,12 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   let connection = await getDatabaseConnection()
-  let user = new User(req.body)
-  console.log(req.body)
-  await connection.manager.save(user)
+  let user = await connection.manager.findOne(User, {
+    where: [{ id: req.body.id }],
+  })
+
+  await connection.manager.remove(user)
+
   let data = await loadData()
-  res.status(201).json(data)
+  res.status(200).json(data)
 }

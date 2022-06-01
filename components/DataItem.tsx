@@ -6,6 +6,7 @@ import { dataTypeToLabel } from '../lib/views'
 import JSONPretty from 'react-json-pretty'
 import { AddUserModal } from './AddUserModal'
 import axios from 'axios'
+import { DelUserModal } from './DelUserModal'
 
 export const DataItem: React.FC<{
   data: Data
@@ -14,8 +15,10 @@ export const DataItem: React.FC<{
   dataType: DataType
 }> = ({ dataSource, dataType, data, setData }) => {
   const [addUserModalVisible, setAddUserModalVisible] = React.useState(false)
+  const [delUserModalVisible, setDelUserModalVisible] = React.useState(false)
   const [addUserForm] = Form.useForm()
-  
+  const [delUserForm] = Form.useForm()
+
   return (
     <>
       <AddUserModal
@@ -27,8 +30,25 @@ export const DataItem: React.FC<{
           if (!values) return
 
           const { data: newData } = await axios.post('/api/add_user', values)
-          setData(newData.data)
+          setData(newData)
           message.success('添加成功')
+          setAddUserModalVisible(false)
+        }}
+      />
+
+      <DelUserModal
+        form={delUserForm}
+        visible={delUserModalVisible}
+        onCancel={() => {
+          setDelUserModalVisible(false)
+        }}
+        onOk={async () => {
+          const values = await delUserForm.validateFields()
+          if (!values) return
+
+          const { data: newData } = await axios.post('/api/del_user', values)
+          setData(newData)
+          message.success('删除成功')
           setAddUserModalVisible(false)
         }}
       />
@@ -43,7 +63,15 @@ export const DataItem: React.FC<{
                 key={type}
                 style={{ margin: '0 2px' }}
                 type="primary"
-                onClick={() => setAddUserModalVisible(true)}
+                onClick={() => {
+                  if (type === ActionType.Add && dataType === DataType.User) {
+                    setAddUserModalVisible(true)
+                  }
+
+                  if (type === ActionType.Del && dataType === DataType.User) {
+                    setDelUserModalVisible(true)
+                  }
+                }}
               >
                 {type}
               </Button>

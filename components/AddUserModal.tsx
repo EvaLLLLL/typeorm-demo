@@ -8,7 +8,7 @@ export const AddUserModal: React.FC<{
   onOk: () => void | Promise<void>
 }> = ({ visible, onCancel, form, onOk }) => {
   return (
-    <Modal visible={visible} onCancel={onCancel} title="add User" onOk={onOk}>
+    <Modal visible={visible} onCancel={onCancel} title="add user" onOk={onOk}>
       <Form
         autoComplete="off"
         form={form}

@@ -18,7 +18,7 @@ export class User {
   name: string
 
   @Column('int', { nullable: true })
-  age?: number
+  age: number
 
   @OneToOne(() => Author, author => author.user)
   author: Author

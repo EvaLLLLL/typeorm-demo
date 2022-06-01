@@ -16,6 +16,6 @@ export default async function handler(
 
   await connection.manager.remove(blog)
 
-  let data = await loadData()
+  let data = await loadData(connection)
   res.status(200).json(data)
 }

@@ -59,7 +59,13 @@ const DelUserModalInner: React.FC<ModalInnerProps> = ({
         <Form.Item
           label="id"
           name="id"
-          rules={[{ required: true, message: 'Please input id to delete' }]}
+          rules={[
+            {
+              required: true,
+              type: 'number',
+              message: 'Please input id to delete',
+            },
+          ]}
         >
           <InputNumber />
         </Form.Item>

@@ -14,11 +14,9 @@ export default async function handler(
     relations: ['authors', 'comments'],
   })
 
-  let data = await loadData()
+  let data = await loadData(connection)
   res.status(200).json({
     ...data,
-    blogs: blogs.filter(
-      ({ comments }) => comments.length > Number(req.query.commentsCount),
-    ),
+    blogs: data.blogs,
   })
 }

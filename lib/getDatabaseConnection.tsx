@@ -7,25 +7,28 @@ import { Comment } from '../src/entity/Comment'
 import config from '../ormconfig.json'
 
 const create = () => {
-  // @ts-ignore
-  return createConnection({
-    ...config,
-    entities: [Blog, Author, User, Comment],
-  })
+  try {
+    // @ts-ignore
+    return createConnection({
+      ...config,
+      entities: [Blog, Author, User, Comment],
+    })
+  } catch (err) {
+    console.log('Database connection Error!')
+    console.error(err)
+    console.log('Database connection Error!')
+  }
 }
 
-const connectionPromise = (async () => {
+const promise = (async function () {
   const manager = getConnectionManager()
-
-  const currentConnection = manager.has('default') && manager.get('default')
-
-  if (currentConnection && currentConnection.isConnected) {
-    await currentConnection.close()
+  const current = manager.has('default') && manager.get('default')
+  if (current) {
+    await current.close()
   }
-
   return create()
 })()
 
-export const getDatabaseConnection = () => {
-  return connectionPromise
+export const getDatabaseConnection = async () => {
+  return promise
 }

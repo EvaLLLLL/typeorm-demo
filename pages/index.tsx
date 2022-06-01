@@ -11,6 +11,7 @@ import { DataItem } from '../components/DataItem'
 import { dataTypeToKey } from '../lib/views'
 import { DataType } from '../types'
 import { loadData } from '../lib/loadData'
+import { getDatabaseConnection } from '../lib/getDatabaseConnection'
 
 const Home: NextPage = ({
   blogs,
@@ -51,8 +52,9 @@ const Home: NextPage = ({
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const data = await loadData()
+export const getServerSideProps: GetServerSideProps = async () => {
+  const connection = await getDatabaseConnection()
+  const data = await loadData(connection)
 
   return {
     props: data,

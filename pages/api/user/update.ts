@@ -20,6 +20,6 @@ export default async function handler(
 
   await connection.manager.save(user)
 
-  let data = await loadData()
+  let data = await loadData(connection)
   res.status(200).json(data)
 }

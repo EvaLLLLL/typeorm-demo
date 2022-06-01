@@ -11,6 +11,6 @@ export default async function handler(
   let connection = await getDatabaseConnection()
   let user = new User(req.body)
   await connection.manager.save(user)
-  let data = await loadData()
+  let data = await loadData(connection)
   res.status(200).json(data)
 }

@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   CreateDateColumn,
   Entity,
@@ -20,6 +21,14 @@ export class Blog {
 
   @Column('text')
   content: string
+
+  @Column({ default: 0, type: 'int' })
+  commentCounters: number
+
+  @AfterLoad()
+  updateCounters() {
+    this.commentCounters += this.comments?.length || 0
+  }
 
   @OneToMany(() => Comment, comment => comment.blog)
   comments: Comment[]

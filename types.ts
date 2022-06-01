@@ -15,6 +15,7 @@ export enum ActionType {
   Add = 'add',
   Del = 'del',
   Update = 'upd',
+  Find = 'find',
 }
 
 export type DataSourceType = User[] | Blog[] | Comment[] | Author[]

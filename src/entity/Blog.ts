@@ -23,12 +23,11 @@ export class Blog {
   @Column('text')
   content: string
 
-  @Column({ default: 0, type: 'int' })
-  commentCounters: number
+  commentsCount: number
 
   @AfterLoad()
   updateCounters() {
-    this.commentCounters += this.comments?.length || 0
+    this.commentsCount += this.comments?.length || this.commentsCount || 0
   }
 
   @OneToMany(() => Comment, comment => comment.blog)

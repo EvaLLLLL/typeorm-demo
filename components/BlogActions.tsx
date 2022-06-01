@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import React from 'react'
 import { ActionType, Data } from '../types'
-import { AddBlogModal, DelBlogModal } from './BlogModals'
+import { AddBlogModal, DelBlogModal, FindBlogModal } from './BlogModals'
 import { Author } from '../src/entity/Author'
 
 export const BlogActions: React.FC<{
@@ -10,6 +10,7 @@ export const BlogActions: React.FC<{
 }> = ({ updateData, authors }) => {
   const [addBlogModalVisible, setAddBlogModalVisible] = React.useState(false)
   const [delBlogModalVisible, setDelBlogModalVisible] = React.useState(false)
+  const [findBlogModalVisible, setFindBlogModalVisible] = React.useState(false)
 
   return (
     <>
@@ -32,7 +33,16 @@ export const BlogActions: React.FC<{
         }}
       />
 
-      {[ActionType.Add, ActionType.Del].map(type => (
+      <FindBlogModal
+        visible={findBlogModalVisible}
+        onCancel={() => setFindBlogModalVisible(false)}
+        onOk={newData => {
+          updateData(newData)
+          setFindBlogModalVisible(false)
+        }}
+      />
+
+      {[ActionType.Add, ActionType.Del, ActionType.Find].map(type => (
         <Button
           key={type}
           type="primary"
@@ -44,6 +54,10 @@ export const BlogActions: React.FC<{
 
             if (type === ActionType.Del) {
               setDelBlogModalVisible(true)
+            }
+
+            if (type === ActionType.Find) {
+              setFindBlogModalVisible(true)
             }
           }}
         >

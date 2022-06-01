@@ -5,7 +5,7 @@ Steps to run this project:
 1. create a psql docker container
 
 ```bash
-docker run -v "$PWD/pot-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:14.3
+docker run -v "$PWD/pot-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
 2. create a database

@@ -70,7 +70,6 @@ export const UpdateAuthorModalInner: React.FC<ModalInnerProps> = ({
           rules={[
             {
               required: true,
-              type: 'number',
               message: 'Please input a new author name',
             },
           ]}

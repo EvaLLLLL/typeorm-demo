@@ -11,7 +11,7 @@ const create = () => {
     // @ts-ignore
     return createConnection({
       ...config,
-      entities: [Blog, Author, User, Comment],
+      entities: [User, Author, Blog, Comment],
     })
   } catch (err) {
     console.log('Database connection Error!')

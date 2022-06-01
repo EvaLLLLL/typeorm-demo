@@ -29,7 +29,7 @@ export const DataItem: React.FC<{
           const values = await addUserForm.validateFields()
           if (!values) return
 
-          const { data: newData } = await axios.post('/api/add_user', values)
+          const { data: newData } = await axios.post('/api/user/add', values)
           setData(newData)
           message.success('添加成功')
           setAddUserModalVisible(false)
@@ -46,10 +46,10 @@ export const DataItem: React.FC<{
           const values = await delUserForm.validateFields()
           if (!values) return
 
-          const { data: newData } = await axios.post('/api/del_user', values)
+          const { data: newData } = await axios.post('/api/user/del', values)
           setData(newData)
           message.success('删除成功')
-          setAddUserModalVisible(false)
+          setDelUserModalVisible(false)
         }}
       />
 

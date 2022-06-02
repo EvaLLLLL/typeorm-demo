@@ -1,16 +1,14 @@
 # TypeORM demo
 
-## Steps to run this project:
+## 运行步骤:
 
-1. create a psql docker container
-
-cd this project
+1. 创建一个 postgresSQL 容器
 
 ```bash
 docker run -v "$PWD/pot-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
-2. create a database
+2. postgresSQL 容器中创建数据库
 
 ```bash
 docker exec -it <containerId> bash
@@ -20,13 +18,13 @@ psql -U admin
 CREATE DATABASE pot_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 ```
 
-3. install dependencies
+3. 安装依赖
 
 ```bash
 yarn
 ```
 
-4. start this project
+4. 启动
 
 ```bash
 yarn dev

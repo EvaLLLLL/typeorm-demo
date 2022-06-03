@@ -21,6 +21,8 @@ export const DataItems = observer(() => {
         {[DataType.User, DataType.Author, DataType.Blog, DataType.Comment].map(
           type => (
             <div className={styles.dataItem} key={type}>
+              <div>totalCount: {stores[type].totalCount}</div>
+
               <Card
                 title={dataTypeToLabel(type)}
                 size="small"

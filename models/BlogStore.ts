@@ -27,6 +27,11 @@ export const BlogStore = types
     delModalVisible: false,
     findModalVisible: false,
   })
+  .views(self => ({
+    get totalCount() {
+      return self.data.length
+    },
+  }))
   .actions(self => ({
     toggleAddModalVisible() {
       self.addModalVisible = !self.addModalVisible

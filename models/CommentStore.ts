@@ -13,6 +13,11 @@ export const CommentStore = types
     addModalVisible: false,
     delModalVisible: false,
   })
+  .views(self => ({
+    get totalCount() {
+      return self.data.length
+    },
+  }))
   .actions(self => ({
     toggleAddModalVisible() {
       self.addModalVisible = !self.addModalVisible

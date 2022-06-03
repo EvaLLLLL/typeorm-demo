@@ -1,35 +1,29 @@
 import React from 'react'
-import { Form, Modal, InputNumber, message } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { Form, Modal, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const DelBlogModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
+export const DelBlogModal = observer(() => {
   const [delBlogForm] = Form.useForm()
-
-  React.useEffect(() => {
-    delBlogForm.resetFields()
-  }, [visible, delBlogForm])
+  const { blog: blogStore, delBlog } = useStores()
+  const { delModalVisible, toggleDelModalVisible } = blogStore
 
   return (
     <DelBlogModalInner
       form={delBlogForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={delModalVisible}
+      onCancel={toggleDelModalVisible}
       onOk={async () => {
         const values = await delBlogForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/blog/del', values)
-        message.success('删除成功')
-        onOk(newData)
+        await delBlog(values.id)
+        toggleDelModalVisible()
       }}
     />
   )
-}
+})
 
 const DelBlogModalInner: React.FC<ModalInnerProps> = ({
   visible,

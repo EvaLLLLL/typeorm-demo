@@ -1,46 +1,40 @@
 import React from 'react'
-import axios from 'axios'
-import { Form, Modal, Input, message, Select } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import { Author } from '../../src/entity/Author'
+import { Form, Modal, Input, Select } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
+import { getSnapshot, SnapshotOrInstance } from 'mobx-state-tree'
+import { Author } from '../../models/AuthorStore'
 
-export const AddBlogModal: React.FC<ModalProps & { authors: Author[] }> = ({
-  visible,
-  onCancel,
-  onOk,
-  authors,
-}) => {
+export const AddBlogModal = observer(() => {
   const [addBlogModal] = Form.useForm()
+  const { blog: blogStore, author: authorStores, addBlog } = useStores()
+  const { addModalVisible, toggleAddModalVisible } = blogStore
 
   React.useEffect(() => {
     addBlogModal.resetFields()
-  }, [visible, addBlogModal])
+  }, [addModalVisible, addBlogModal])
 
   return (
     <AddBlogModalInner
-      authors={authors}
+      authors={getSnapshot(authorStores.data)}
       form={addBlogModal}
-      visible={visible}
-      onCancel={onCancel}
+      visible={addModalVisible}
+      onCancel={toggleAddModalVisible}
       onOk={async () => {
         const values = await addBlogModal.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/blog/add', values)
-        message.success('添加成功')
-        onOk(newData)
+        await addBlog(values)
+        toggleAddModalVisible()
       }}
     />
   )
-}
+})
 
-const AddBlogModalInner: React.FC<ModalInnerProps & { authors: Author[] }> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-  authors,
-}) => {
+const AddBlogModalInner: React.FC<
+  ModalInnerProps & { authors: SnapshotOrInstance<typeof Author>[] }
+> = ({ visible, onCancel, form, onOk, authors }) => {
   return (
     <Modal
       destroyOnClose

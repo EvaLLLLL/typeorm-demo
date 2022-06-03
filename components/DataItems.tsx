@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite'
 import { getSnapshot } from 'mobx-state-tree'
 import { AuthorActions } from './AuthorActions'
 import { useStores } from '../models'
+import { BlogActions } from './BlogActions'
 
 export const DataItems = observer(() => {
   const stores = useStores()
@@ -19,7 +20,7 @@ export const DataItems = observer(() => {
         {[
           DataType.User,
           DataType.Author,
-          // DataType.Blog,
+          DataType.Blog,
           // DataType.Comment,
         ].map(type => (
           <div className={styles.dataItem} key={type}>
@@ -30,7 +31,7 @@ export const DataItems = observer(() => {
                 <>
                   {type === DataType.User ? <UserActions /> : null}
                   {type === DataType.Author ? <AuthorActions /> : null}
-                  {/*{type === DataType.Blog ? <BlogActions /> : null}*/}
+                  {type === DataType.Blog ? <BlogActions /> : null}
                   {/*{type === DataType.Comment ? <CommentActions /> : null}*/}
                 </>
               }

@@ -1,38 +1,33 @@
 import React from 'react'
-import { Form, Modal, message, InputNumber } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { Form, Modal, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const FindBlogModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
+export const FindBlogModal = observer(() => {
   const [findBlogModal] = Form.useForm()
+  const { blog: blogStore, findBlog } = useStores()
+  const { findModalVisible, toggleFindModalVisible } = blogStore
 
   React.useEffect(() => {
     findBlogModal.resetFields()
-  }, [visible, findBlogModal])
+  }, [findModalVisible, findBlogModal])
 
   return (
     <FindBlogModalInner
       form={findBlogModal}
-      visible={visible}
-      onCancel={onCancel}
+      visible={findModalVisible}
+      onCancel={toggleFindModalVisible}
       onOk={async () => {
         const values = await findBlogModal.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.get('/api/blog/find', {
-          params: values,
-        })
-
-        message.success('查询成功')
-        onOk(newData)
+        await findBlog(values.id)
+        toggleFindModalVisible()
       }}
     />
   )
-}
+})
 
 const FindBlogModalInner: React.FC<ModalInnerProps> = ({
   visible,

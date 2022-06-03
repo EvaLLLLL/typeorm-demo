@@ -1,22 +1,24 @@
 import { types, Instance, flow } from 'mobx-state-tree'
 import { User, UserStore } from './UserStore'
 import { Author, AuthorStore } from './AuthorStore'
+import { BlogStore } from './BlogStore'
 import { createContext, useContext } from 'react'
-import { Data } from '../types'
 import axios from 'axios'
 import { message } from 'antd'
 
 export const RootStore = types
   .model('RootStore', {
     user: UserStore,
+    blog: BlogStore,
     author: AuthorStore,
-    // blog: BlogStore,
     // comment: CommentStore,
   })
   .actions(self => {
-    const update = (newData: Data) => {
+    const update = newData => {
       self.user.data.replace(newData.users)
       self.author.data.replace(newData.authors)
+      self.blog.data.replace(newData.blogs)
+      // self.blog.data.replace(newData.authors)
     }
 
     return {
@@ -75,6 +77,44 @@ export const RootStore = types
 
         update(newData)
         message.success('更新成功')
+      }),
+
+      addBlog: flow(function* ({
+        title,
+        content,
+        authorIds,
+      }: {
+        title: string
+        content: string
+        authorIds: number[]
+      }) {
+        const { data: newData } = yield axios.post('/api/blog/add', {
+          title,
+          content,
+          authorIds,
+        })
+
+        update(newData)
+        message.success('添加成功')
+      }),
+
+      delBlog: flow(function* (id: number) {
+        const { data: newData } = yield axios.post('/api/blog/del', { id })
+
+        update(newData)
+        message.success('删除成功')
+      }),
+
+      findBlog: flow(function* (id: number) {
+        console.log(id)
+        const { data: newData } = yield axios.get('/api/blog/find', {
+          params: {
+            id,
+          },
+        })
+
+        update(newData)
+        message.success('查询成功')
       }),
     }
   })

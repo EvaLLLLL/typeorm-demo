@@ -1,11 +1,15 @@
-import { flow, types, getParent, getRoot } from 'mobx-state-tree'
-import axios from 'axios'
-import { message } from 'antd'
+import { types } from 'mobx-state-tree'
+
+const ReferenceBlogs = types.model('ReferenceBlogs', {
+  id: types.number,
+  title: types.string,
+})
 
 export const Author = types.model('Author', {
   id: types.identifierNumber,
   name: types.string,
   userId: types.number,
+  blogs: types.maybeNull(types.array(ReferenceBlogs)),
 })
 
 export const AuthorStore = types

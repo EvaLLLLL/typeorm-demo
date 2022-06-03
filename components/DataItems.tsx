@@ -10,6 +10,7 @@ import { getSnapshot } from 'mobx-state-tree'
 import { AuthorActions } from './AuthorActions'
 import { useStores } from '../models'
 import { BlogActions } from './BlogActions'
+import { CommentActions } from './CommentActions'
 
 export const DataItems = observer(() => {
   const stores = useStores()
@@ -17,32 +18,29 @@ export const DataItems = observer(() => {
   return (
     <div className={styles.container}>
       <div className={styles.dataContainer}>
-        {[
-          DataType.User,
-          DataType.Author,
-          DataType.Blog,
-          // DataType.Comment,
-        ].map(type => (
-          <div className={styles.dataItem} key={type}>
-            <Card
-              title={dataTypeToLabel(type)}
-              size="small"
-              extra={
-                <>
-                  {type === DataType.User ? <UserActions /> : null}
-                  {type === DataType.Author ? <AuthorActions /> : null}
-                  {type === DataType.Blog ? <BlogActions /> : null}
-                  {/*{type === DataType.Comment ? <CommentActions /> : null}*/}
-                </>
-              }
-            >
-              <JSONPretty
-                id="json-pretty"
-                data={getSnapshot(stores[type].data)}
-              ></JSONPretty>
-            </Card>
-          </div>
-        ))}
+        {[DataType.User, DataType.Author, DataType.Blog, DataType.Comment].map(
+          type => (
+            <div className={styles.dataItem} key={type}>
+              <Card
+                title={dataTypeToLabel(type)}
+                size="small"
+                extra={
+                  <>
+                    {type === DataType.User ? <UserActions /> : null}
+                    {type === DataType.Author ? <AuthorActions /> : null}
+                    {type === DataType.Blog ? <BlogActions /> : null}
+                    {type === DataType.Comment ? <CommentActions /> : null}
+                  </>
+                }
+              >
+                <JSONPretty
+                  id="json-pretty"
+                  data={getSnapshot(stores[type].data)}
+                ></JSONPretty>
+              </Card>
+            </div>
+          ),
+        )}
       </div>
     </div>
   )

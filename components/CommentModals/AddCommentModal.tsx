@@ -1,40 +1,49 @@
 import React from 'react'
-import { Form, Modal, Input, message, Select } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
-import { User } from '../../src/entity/User'
-import { Blog } from '../../src/entity/Blog'
+import { Form, Modal, Input, Select } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
+import { getSnapshot, SnapshotOrInstance } from 'mobx-state-tree'
+import { User } from '../../models/UserStore'
+import { Blog } from '../../models/BlogStore'
 
-export const AddCommentModal: React.FC<
-  ModalProps & { users: User[]; blogs: Blog[] }
-> = ({ visible, onCancel, onOk, users, blogs }) => {
+export const AddCommentModal = observer(() => {
   const [addCommentForm] = Form.useForm()
+  const {
+    comment: commentStore,
+    user: userStore,
+    blog: blogStore,
+    addComment,
+  } = useStores()
+  const { addModalVisible, toggleAddModalVisible } = commentStore
 
   React.useEffect(() => {
     addCommentForm.resetFields()
-  }, [visible, addCommentForm])
+  }, [addModalVisible, addCommentForm])
 
   return (
     <AddCommentModalInner
-      users={users}
-      blogs={blogs}
+      users={getSnapshot(userStore.data)}
+      blogs={getSnapshot(blogStore.data)}
       form={addCommentForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={addModalVisible}
+      onCancel={toggleAddModalVisible}
       onOk={async () => {
         const values = await addCommentForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/comment/add', values)
-        message.success('添加成功')
-        onOk(newData)
+        await addComment(values)
+        toggleAddModalVisible()
       }}
     />
   )
-}
+})
 
 const AddCommentModalInner: React.FC<
-  ModalInnerProps & { users: User[]; blogs: Blog[] }
+  ModalInnerProps & {
+    users: SnapshotOrInstance<typeof User>[]
+    blogs: SnapshotOrInstance<typeof Blog>[]
+  }
 > = ({ visible, onCancel, form, onOk, users, blogs }) => {
   return (
     <Modal

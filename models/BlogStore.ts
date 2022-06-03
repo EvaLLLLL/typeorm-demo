@@ -5,11 +5,16 @@ const ReferenceAuthor = types.model({
   name: types.string,
 })
 
+const ReferenceComment = types.model({
+  id: types.identifierNumber,
+  content: types.string,
+})
+
 export const Blog = types.model('Blog', {
   id: types.identifierNumber,
   title: types.string,
   content: types.string,
-  // comments: types.reference(CommentStore),
+  comments: types.maybeNull(types.array(ReferenceComment)),
   authors: types.maybeNull(types.array(ReferenceAuthor)),
   createdAt: types.string,
   updatedAt: types.string,

@@ -1,35 +1,33 @@
 import React from 'react'
-import { Form, Modal, InputNumber, message } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { Form, Modal, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const DelCommentModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
+export const DelCommentModal = observer(() => {
   const [delCommentForm] = Form.useForm()
+  const { comment: commentStore, delComment } = useStores()
+  const { delModalVisible, toggleDelModalVisible } = commentStore
 
   React.useEffect(() => {
     delCommentForm.resetFields()
-  }, [visible, delCommentForm])
+  }, [delModalVisible, delCommentForm])
 
   return (
     <DelCommentModalInner
       form={delCommentForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={delModalVisible}
+      onCancel={toggleDelModalVisible}
       onOk={async () => {
         const values = await delCommentForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/comment/del', values)
-        message.success('删除成功')
-        onOk(newData)
+        await delComment(values.id)
+        toggleDelModalVisible()
       }}
     />
   )
-}
+})
 
 const DelCommentModalInner: React.FC<ModalInnerProps> = ({
   visible,

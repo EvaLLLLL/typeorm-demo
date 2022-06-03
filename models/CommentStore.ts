@@ -1,8 +1,24 @@
 import { types } from 'mobx-state-tree'
 
-export const CommentStore = types.model({
+export const Comment = types.model('Comment', {
   id: types.identifierNumber,
   content: types.string,
-  // user: types.reference(UserStore),
-  // author: types.reference(AuthorStore),
+  userId: types.number,
+  blogId: types.number,
 })
+
+export const CommentStore = types
+  .model('CommentStore', {
+    data: types.array(Comment),
+    addModalVisible: false,
+    delModalVisible: false,
+  })
+  .actions(self => ({
+    toggleAddModalVisible() {
+      self.addModalVisible = !self.addModalVisible
+    },
+
+    toggleDelModalVisible() {
+      self.delModalVisible = !self.delModalVisible
+    },
+  }))

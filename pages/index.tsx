@@ -21,6 +21,7 @@ const Home: NextPage<{
     user: { data: users },
     author: { data: authors },
     blog: { data: blogs },
+    comment: { data: comments },
   })
 
   return (

@@ -10,6 +10,8 @@ export default async function handler(
 ) {
   let connection = await getDatabaseConnection()
 
+  console.log(req.body)
+
   let comment = await connection.manager.findOne(Comment, {
     where: [{ id: req.body.id }],
   })

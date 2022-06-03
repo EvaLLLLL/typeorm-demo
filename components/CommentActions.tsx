@@ -1,41 +1,17 @@
 import { Button } from 'antd'
 import React from 'react'
-import { ActionType, Data } from '../types'
-import { User } from '../src/entity/User'
-import { Blog } from '../src/entity/Blog'
+import { ActionType } from '../types'
 import { AddCommentModal, DelCommentModal } from './CommentModals'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../models'
 
-export const CommentActions: React.FC<{
-  users: User[]
-  blogs: Blog[]
-  updateData: (newData: Data) => void
-}> = ({ updateData, users, blogs }) => {
-  const [addCommentModalVisible, setAddCommentModalVisible] =
-    React.useState(false)
-  const [delCommentModalVisible, setDelCommentModalVisible] =
-    React.useState(false)
-
+export const CommentActions = observer(() => {
+  const { comment: commentStore } = useStores()
+  const { toggleAddModalVisible, toggleDelModalVisible } = commentStore
   return (
     <>
-      <AddCommentModal
-        users={users}
-        blogs={blogs}
-        visible={addCommentModalVisible}
-        onCancel={() => setAddCommentModalVisible(false)}
-        onOk={newData => {
-          updateData(newData)
-          setAddCommentModalVisible(false)
-        }}
-      />
-
-      <DelCommentModal
-        visible={delCommentModalVisible}
-        onCancel={() => setDelCommentModalVisible(false)}
-        onOk={newData => {
-          updateData(newData)
-          setDelCommentModalVisible(false)
-        }}
-      />
+      <AddCommentModal />
+      <DelCommentModal />
 
       {[ActionType.Add, ActionType.Del].map(type => (
         <Button
@@ -44,11 +20,11 @@ export const CommentActions: React.FC<{
           style={{ margin: '0 2px' }}
           onClick={() => {
             if (type === ActionType.Add) {
-              setAddCommentModalVisible(true)
+              toggleAddModalVisible()
             }
 
             if (type === ActionType.Del) {
-              setDelCommentModalVisible(true)
+              toggleDelModalVisible()
             }
           }}
         >
@@ -57,4 +33,4 @@ export const CommentActions: React.FC<{
       ))}
     </>
   )
-}
+})

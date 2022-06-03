@@ -1,24 +1,25 @@
+import axios from 'axios'
+import { message } from 'antd'
+import { createContext, useContext } from 'react'
 import { types, Instance, flow } from 'mobx-state-tree'
 import { User, UserStore } from './UserStore'
 import { Author, AuthorStore } from './AuthorStore'
 import { BlogStore } from './BlogStore'
-import { createContext, useContext } from 'react'
-import axios from 'axios'
-import { message } from 'antd'
+import { Comment, CommentStore } from './CommentStore'
 
 export const RootStore = types
   .model('RootStore', {
     user: UserStore,
     blog: BlogStore,
     author: AuthorStore,
-    // comment: CommentStore,
+    comment: CommentStore,
   })
   .actions(self => {
     const update = newData => {
       self.user.data.replace(newData.users)
       self.author.data.replace(newData.authors)
       self.blog.data.replace(newData.blogs)
-      // self.blog.data.replace(newData.authors)
+      self.comment.data.replace(newData.comments)
     }
 
     return {
@@ -115,6 +116,19 @@ export const RootStore = types
 
         update(newData)
         message.success('查询成功')
+      }),
+
+      addComment: flow(function* (data: Instance<typeof Comment>) {
+        const { data: newData } = yield axios.post('/api/comment/add', data)
+        update(newData)
+        message.success('添加成功')
+      }),
+
+      delComment: flow(function* (id: number) {
+        const { data: newData } = yield axios.post('/api/comment/del', { id })
+
+        update(newData)
+        message.success('删除成功')
       }),
     }
   })

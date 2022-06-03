@@ -1,4 +1,9 @@
-import { types } from 'mobx-state-tree'
+import axios from 'axios'
+import { flow, getRoot, Instance, types } from 'mobx-state-tree'
+import { getApiUrl } from '../lib/views'
+import { ApiEnum } from '../types'
+import { message } from 'antd'
+import { Store } from './index'
 
 export const Comment = types.model('Comment', {
   id: types.identifierNumber,
@@ -18,12 +23,35 @@ export const CommentStore = types
       return self.data.length
     },
   }))
-  .actions(self => ({
-    toggleAddModalVisible() {
-      self.addModalVisible = !self.addModalVisible
-    },
+  .actions(self => {
+    const { updateAll } = getRoot<Store>(self)
 
-    toggleDelModalVisible() {
-      self.delModalVisible = !self.delModalVisible
-    },
-  }))
+    return {
+      toggleAddModalVisible() {
+        self.addModalVisible = !self.addModalVisible
+      },
+
+      toggleDelModalVisible() {
+        self.delModalVisible = !self.delModalVisible
+      },
+
+      addComment: flow(function* (data: Instance<typeof Comment>) {
+        const { data: newData } = yield axios.post(
+          getApiUrl(ApiEnum.AddComment),
+          data,
+        )
+        updateAll(newData)
+        yield message.success('添加成功')
+      }),
+
+      delComment: flow(function* (id: number) {
+        const { data: newData } = yield axios.post(
+          getApiUrl(ApiEnum.DelComment),
+          { id },
+        )
+
+        updateAll(newData)
+        yield message.success('删除成功')
+      }),
+    }
+  })

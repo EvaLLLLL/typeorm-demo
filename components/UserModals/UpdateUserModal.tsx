@@ -6,8 +6,8 @@ import { useStores } from '../../models'
 
 export const UpdateUserModal = observer(() => {
   const [updateUserForm] = Form.useForm()
-  const { user: userStore, updateUser } = useStores()
-  const { updateModalVisible, toggleUpdateModalVisible } = userStore
+  const { user: userStore } = useStores()
+  const { updateModalVisible, toggleUpdateModalVisible, updateUser } = userStore
 
   return (
     <Modal

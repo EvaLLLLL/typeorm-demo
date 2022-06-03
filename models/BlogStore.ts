@@ -1,4 +1,9 @@
-import { types } from 'mobx-state-tree'
+import axios from 'axios'
+import { flow, getRoot, types } from 'mobx-state-tree'
+import { getApiUrl } from '../lib/views'
+import { ApiEnum } from '../types'
+import { message } from 'antd'
+import { Store } from './index'
 
 const ReferenceAuthor = types.model({
   id: types.identifierNumber,
@@ -32,16 +37,60 @@ export const BlogStore = types
       return self.data.length
     },
   }))
-  .actions(self => ({
-    toggleAddModalVisible() {
-      self.addModalVisible = !self.addModalVisible
-    },
+  .actions(self => {
+    const { updateAll } = getRoot<Store>(self)
 
-    toggleDelModalVisible() {
-      self.delModalVisible = !self.delModalVisible
-    },
+    return {
+      toggleAddModalVisible() {
+        self.addModalVisible = !self.addModalVisible
+      },
 
-    toggleFindModalVisible() {
-      self.findModalVisible = !self.findModalVisible
-    },
-  }))
+      toggleDelModalVisible() {
+        self.delModalVisible = !self.delModalVisible
+      },
+
+      toggleFindModalVisible() {
+        self.findModalVisible = !self.findModalVisible
+      },
+
+      addBlog: flow(function* ({
+        title,
+        content,
+        authorIds,
+      }: {
+        title: string
+        content: string
+        authorIds: number[]
+      }) {
+        const { data: newData } = yield axios.post(getApiUrl(ApiEnum.AddBlog), {
+          title,
+          content,
+          authorIds,
+        })
+
+        updateAll(newData)
+        yield message.success('添加成功')
+      }),
+
+      delBlog: flow(function* (id: number) {
+        const { data: newData } = yield axios.post(getApiUrl(ApiEnum.DelBlog), {
+          id,
+        })
+
+        updateAll(newData)
+        yield message.success('删除成功')
+      }),
+
+      findBlog: flow(function* (id: number) {
+        console.log(id)
+        const { data: newData } = yield axios.get(getApiUrl(ApiEnum.FindBlog), {
+          params: {
+            id,
+          },
+        })
+
+        updateAll(newData)
+        yield message.success('查询成功')
+      }),
+    }
+  })

@@ -1,6 +1,11 @@
-import { types } from 'mobx-state-tree'
+import axios from 'axios'
+import { flow, getRoot, types } from 'mobx-state-tree'
+import { getApiUrl } from '../lib/views'
+import { ApiEnum } from '../types'
+import { message } from 'antd'
+import { Store } from './index'
 
-const ReferenceBlogs = types.model('ReferenceBlogs', {
+const ReferenceBlog = types.model('ReferenceBlogs', {
   id: types.number,
   title: types.string,
 })
@@ -9,7 +14,7 @@ export const Author = types.model('Author', {
   id: types.identifierNumber,
   name: types.string,
   userId: types.number,
-  blogs: types.maybeNull(types.array(ReferenceBlogs)),
+  blogs: types.maybeNull(types.array(ReferenceBlog)),
 })
 
 export const AuthorStore = types
@@ -24,16 +29,61 @@ export const AuthorStore = types
       return self.data.length
     },
   }))
-  .actions(self => ({
-    toggleAddModalVisible() {
-      self.addModalVisible = !self.addModalVisible
-    },
+  .actions(self => {
+    const { updateAll } = getRoot<Store>(self)
 
-    toggleDelModalVisible() {
-      self.delModalVisible = !self.delModalVisible
-    },
+    return {
+      toggleAddModalVisible() {
+        self.addModalVisible = !self.addModalVisible
+      },
 
-    toggleUpdateModalVisible() {
-      self.updateModalVisible = !self.updateModalVisible
-    },
-  }))
+      toggleDelModalVisible() {
+        self.delModalVisible = !self.delModalVisible
+      },
+
+      toggleUpdateModalVisible() {
+        self.updateModalVisible = !self.updateModalVisible
+      },
+
+      addAuthor: flow(function* add(author: typeof Author) {
+        const { data: newData } = yield axios.post(
+          getApiUrl(ApiEnum.AddAuthor),
+          author,
+        )
+
+        updateAll(newData)
+        yield message.success('添加成功')
+      }),
+
+      delAuthor: flow(function* del(id: number) {
+        const { data: newData } = yield axios.post(
+          getApiUrl(ApiEnum.DelAuthor),
+          {
+            id,
+          },
+        )
+
+        updateAll(newData)
+        yield message.success('删除成功')
+      }),
+
+      updateAuthor: flow(function* ({
+        id,
+        name,
+      }: {
+        id: number
+        name: string
+      }) {
+        const { data: newData } = yield axios.post(
+          getApiUrl(ApiEnum.UpdateAuthor),
+          {
+            name,
+            id,
+          },
+        )
+
+        updateAll(newData)
+        yield message.success('更新成功')
+      }),
+    }
+  })

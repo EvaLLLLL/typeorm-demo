@@ -10,9 +10,8 @@ export const AddCommentModal = observer(() => {
     comment: commentStore,
     user: userStore,
     blog: blogStore,
-    addComment,
   } = useStores()
-  const { addModalVisible, toggleAddModalVisible } = commentStore
+  const { addModalVisible, toggleAddModalVisible, addComment } = commentStore
 
   return (
     <Modal

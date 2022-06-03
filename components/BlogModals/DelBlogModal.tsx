@@ -6,8 +6,8 @@ import { useStores } from '../../models'
 
 export const DelBlogModal = observer(() => {
   const [delBlogForm] = Form.useForm()
-  const { blog: blogStore, delBlog } = useStores()
-  const { delModalVisible, toggleDelModalVisible } = blogStore
+  const { blog: blogStore } = useStores()
+  const { delModalVisible, toggleDelModalVisible, delBlog } = blogStore
 
   return (
     <Modal

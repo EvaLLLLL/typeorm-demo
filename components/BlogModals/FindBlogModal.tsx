@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Modal, InputNumber } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, InputNumber } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
 
@@ -9,37 +9,23 @@ export const FindBlogModal = observer(() => {
   const { blog: blogStore, findBlog } = useStores()
   const { findModalVisible, toggleFindModalVisible } = blogStore
 
-  React.useEffect(() => {
-    findBlogModal.resetFields()
-  }, [findModalVisible, findBlogModal])
-
   return (
-    <FindBlogModalInner
-      form={findBlogModal}
+    <Modal
+      title="find blog"
       visible={findModalVisible}
       onCancel={toggleFindModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await findBlogModal.validateFields()
         if (!values) return
 
         await findBlog(values.id)
+        findBlogModal.resetFields()
         toggleFindModalVisible()
       }}
-    />
-  )
-})
-
-const FindBlogModalInner: React.FC<ModalInnerProps> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-}) => {
-  return (
-    <Modal title="find blog" visible={visible} onCancel={onCancel} onOk={onOk}>
+    >
       <Form
         autoComplete="off"
-        form={form}
+        form={findBlogModal}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -59,4 +45,4 @@ const FindBlogModalInner: React.FC<ModalInnerProps> = ({
       </Form>
     </Modal>
   )
-}
+})

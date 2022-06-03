@@ -1,51 +1,31 @@
 import React from 'react'
-import { Form, Modal, Input, Select } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, Input, Select } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
-import { getSnapshot, SnapshotOrInstance } from 'mobx-state-tree'
-import { Author } from '../../models/AuthorStore'
 
 export const AddBlogModal = observer(() => {
   const [addBlogModal] = Form.useForm()
   const { blog: blogStore, author: authorStores, addBlog } = useStores()
   const { addModalVisible, toggleAddModalVisible } = blogStore
 
-  React.useEffect(() => {
-    addBlogModal.resetFields()
-  }, [addModalVisible, addBlogModal])
-
   return (
-    <AddBlogModalInner
-      authors={getSnapshot(authorStores.data)}
-      form={addBlogModal}
+    <Modal
+      title="add blog"
       visible={addModalVisible}
       onCancel={toggleAddModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await addBlogModal.validateFields()
         if (!values) return
 
         await addBlog(values)
+        addBlogModal.resetFields()
         toggleAddModalVisible()
       }}
-    />
-  )
-})
-
-const AddBlogModalInner: React.FC<
-  ModalInnerProps & { authors: SnapshotOrInstance<typeof Author>[] }
-> = ({ visible, onCancel, form, onOk, authors }) => {
-  return (
-    <Modal
-      destroyOnClose
-      visible={visible}
-      onCancel={onCancel}
-      title="add blog"
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={addBlogModal}
         labelCol={{ span: 7 }}
         wrapperCol={{ span: 12 }}
       >
@@ -75,7 +55,7 @@ const AddBlogModalInner: React.FC<
         >
           <Select
             mode="multiple"
-            options={authors.map(({ id, name }) => ({
+            options={authorStores.data.map(({ id, name }) => ({
               label: `id: ${id}, name: ${name}`,
               value: id,
             }))}
@@ -84,4 +64,4 @@ const AddBlogModalInner: React.FC<
       </Form>
     </Modal>
   )
-}
+})

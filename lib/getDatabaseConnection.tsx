@@ -6,7 +6,7 @@ import { User } from '../src/entity/User'
 import { Comment } from '../src/entity/Comment'
 import config from '../ormconfig.json'
 
-const create = () => {
+const create = function () {
   try {
     // @ts-ignore
     return createConnection({
@@ -17,6 +17,7 @@ const create = () => {
     console.log('Database connection Error!')
     console.error(err)
     console.log('Database connection Error!')
+    return undefined
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Modal, Input, InputNumber } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, Input, InputNumber } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
 
@@ -9,43 +9,23 @@ export const UpdateAuthorModal = observer(() => {
   const { author: authorStore, updateAuthor } = useStores()
   const { updateModalVisible, toggleUpdateModalVisible } = authorStore
 
-  React.useEffect(() => {
-    updateAuthorForm.resetFields()
-  }, [updateModalVisible, updateAuthorForm])
-
   return (
-    <UpdateAuthorModalInner
-      form={updateAuthorForm}
+    <Modal
       visible={updateModalVisible}
       onCancel={toggleUpdateModalVisible}
-      onOk={async () => {
+      title="update author name"
+      onSubmit={async () => {
         const values = await updateAuthorForm.validateFields()
         if (!values) return
 
         await updateAuthor(values)
+        updateAuthorForm.resetFields()
         toggleUpdateModalVisible()
       }}
-    />
-  )
-})
-
-export const UpdateAuthorModalInner: React.FC<ModalInnerProps> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-}) => {
-  return (
-    <Modal
-      destroyOnClose
-      visible={visible}
-      onCancel={onCancel}
-      title="update author name"
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={updateAuthorForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -77,4 +57,4 @@ export const UpdateAuthorModalInner: React.FC<ModalInnerProps> = ({
       </Form>
     </Modal>
   )
-}
+})

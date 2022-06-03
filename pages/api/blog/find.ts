@@ -6,9 +6,14 @@ import { Blog } from '../../../src/entity/Blog'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data | String>,
 ) {
   let connection = await getDatabaseConnection()
+
+  if (!connection) {
+    res.status(500).json('Database connection Error!')
+    return
+  }
 
   let blogs = await connection.manager.find(Blog, {
     relations: ['authors', 'comments'],

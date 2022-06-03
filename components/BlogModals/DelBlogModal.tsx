@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Modal, InputNumber } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, InputNumber } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
 
@@ -10,37 +10,22 @@ export const DelBlogModal = observer(() => {
   const { delModalVisible, toggleDelModalVisible } = blogStore
 
   return (
-    <DelBlogModalInner
-      form={delBlogForm}
+    <Modal
+      title="delete blog"
       visible={delModalVisible}
       onCancel={toggleDelModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await delBlogForm.validateFields()
         if (!values) return
 
         await delBlog(values.id)
+        delBlogForm.resetFields()
         toggleDelModalVisible()
       }}
-    />
-  )
-})
-
-const DelBlogModalInner: React.FC<ModalInnerProps> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-}) => {
-  return (
-    <Modal
-      title="delete blog"
-      visible={visible}
-      onCancel={onCancel}
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={delBlogForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -60,4 +45,4 @@ const DelBlogModalInner: React.FC<ModalInnerProps> = ({
       </Form>
     </Modal>
   )
-}
+})

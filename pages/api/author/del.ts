@@ -6,9 +6,14 @@ import { Author } from '../../../src/entity/Author'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data | String>,
 ) {
   let connection = await getDatabaseConnection()
+
+  if (!connection) {
+    res.status(500).json('Database connection Error!')
+    return
+  }
 
   let author = await connection.manager.findOne(Author, {
     where: [{ id: req.body.id }],

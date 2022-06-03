@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import React from 'react'
-import { ActionType } from '../types'
+import { ActionTypeEnum } from '../types'
 import {
   AddAuthorModal,
   DelAuthorModal,
@@ -18,21 +18,21 @@ export const AuthorActions = observer(() => {
       <DelAuthorModal />
       <UpdateAuthorModal />
 
-      {[ActionType.Add, ActionType.Del, ActionType.Update].map(type => (
+      {[ActionTypeEnum.Add, ActionTypeEnum.Del, ActionTypeEnum.Update].map(type => (
         <Button
           key={type}
           type="primary"
           style={{ margin: '0 2px' }}
           onClick={() => {
-            if (type === ActionType.Add) {
+            if (type === ActionTypeEnum.Add) {
               authorStore.toggleAddModalVisible()
             }
 
-            if (type === ActionType.Del) {
+            if (type === ActionTypeEnum.Del) {
               authorStore.toggleDelModalVisible()
             }
 
-            if (type === ActionType.Update) {
+            if (type === ActionTypeEnum.Update) {
               authorStore.toggleUpdateModalVisible()
             }
           }}

@@ -15,8 +15,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "strict": false,
-    "noImplicitReturns": true
+    "strict": true,
+    "noImplicitReturns": true,
+    "strictPropertyInitialization": false
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

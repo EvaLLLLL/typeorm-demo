@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Modal, Input, InputNumber } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, Input, InputNumber } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
 
@@ -9,43 +9,23 @@ export const UpdateUserModal = observer(() => {
   const { user: userStore, updateUser } = useStores()
   const { updateModalVisible, toggleUpdateModalVisible } = userStore
 
-  React.useEffect(() => {
-    updateUserForm.resetFields()
-  }, [updateModalVisible, updateUserForm])
-
   return (
-    <UpdateUserModalInner
-      form={updateUserForm}
+    <Modal
+      title="update user name"
       visible={updateModalVisible}
       onCancel={toggleUpdateModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await updateUserForm.validateFields()
         if (!values) return
 
         await updateUser(values)
+        updateUserForm.resetFields()
         toggleUpdateModalVisible()
       }}
-    />
-  )
-})
-
-export const UpdateUserModalInner: React.FC<ModalInnerProps> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-}) => {
-  return (
-    <Modal
-      destroyOnClose
-      visible={visible}
-      onCancel={onCancel}
-      title="update user name"
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={updateUserForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -72,4 +52,4 @@ export const UpdateUserModalInner: React.FC<ModalInnerProps> = ({
       </Form>
     </Modal>
   )
-}
+})

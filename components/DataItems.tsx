@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../styles/Home.module.css'
 import JSONPretty from 'react-json-pretty'
 import { Card } from 'antd'
-import { DataType } from '../types'
+import { DataTypeEnum } from '../types'
 import { dataTypeToLabel } from '../lib/views'
 import { UserActions } from './UserActions'
 import { observer } from 'mobx-react-lite'
@@ -18,7 +18,7 @@ export const DataItems = observer(() => {
   return (
     <div className={styles.container}>
       <div className={styles.dataContainer}>
-        {[DataType.User, DataType.Author, DataType.Blog, DataType.Comment].map(
+        {[DataTypeEnum.User, DataTypeEnum.Author, DataTypeEnum.Blog, DataTypeEnum.Comment].map(
           type => (
             <div className={styles.dataItem} key={type}>
               <div>totalCount: {stores[type].totalCount}</div>
@@ -28,10 +28,10 @@ export const DataItems = observer(() => {
                 size="small"
                 extra={
                   <>
-                    {type === DataType.User ? <UserActions /> : null}
-                    {type === DataType.Author ? <AuthorActions /> : null}
-                    {type === DataType.Blog ? <BlogActions /> : null}
-                    {type === DataType.Comment ? <CommentActions /> : null}
+                    {type === DataTypeEnum.User ? <UserActions /> : null}
+                    {type === DataTypeEnum.Author ? <AuthorActions /> : null}
+                    {type === DataTypeEnum.Blog ? <BlogActions /> : null}
+                    {type === DataTypeEnum.Comment ? <CommentActions /> : null}
                   </>
                 }
               >

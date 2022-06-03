@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import React from 'react'
-import { ActionType } from '../types'
+import { ActionTypeEnum } from '../types'
 import { AddBlogModal, DelBlogModal, FindBlogModal } from './BlogModals'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../models'
@@ -19,21 +19,21 @@ export const BlogActions = observer(() => {
       <DelBlogModal />
       <FindBlogModal />
 
-      {[ActionType.Add, ActionType.Del, ActionType.Find].map(type => (
+      {[ActionTypeEnum.Add, ActionTypeEnum.Del, ActionTypeEnum.Find].map(type => (
         <Button
           key={type}
           type="primary"
           style={{ margin: '0 2px' }}
           onClick={() => {
-            if (type === ActionType.Add) {
+            if (type === ActionTypeEnum.Add) {
               toggleAddModalVisible()
             }
 
-            if (type === ActionType.Del) {
+            if (type === ActionTypeEnum.Del) {
               toggleDelModalVisible()
             }
 
-            if (type === ActionType.Find) {
+            if (type === ActionTypeEnum.Find) {
               toggleFindModalVisible()
             }
           }}

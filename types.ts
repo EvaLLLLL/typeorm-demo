@@ -2,38 +2,38 @@ import { Blog } from './src/entity/Blog'
 import { User } from './src/entity/User'
 import { Comment } from './src/entity/Comment'
 import { Author } from './src/entity/Author'
-import { FormInstance } from 'antd'
 
-export enum DataType {
+export enum DataTypeEnum {
   User = 'user',
   Blog = 'blog',
   Comment = 'comment',
   Author = 'author',
 }
 
-export enum ActionType {
+export enum ActionTypeEnum {
   Add = 'add',
   Del = 'del',
   Update = 'upd',
   Find = 'find',
 }
 
-export type DataSourceType = User[] | Blog[] | Comment[] | Author[]
+export enum ApiEnum {
+  AddUser = 'addUser',
+  DelUser = 'delUser',
+  UpdateUser = 'updateUser',
+  AddAuthor = 'addAuthor',
+  DelAuthor = 'delAuthor',
+  UpdateAuthor = 'updateAuthor',
+  AddBlog = 'addBlog',
+  DelBlog = 'delBlog',
+  FindBlog = 'findBlog',
+  AddComment = 'addComment',
+  DelComment = 'delComment',
+}
 
 export type Data = {
   users: User[]
   blogs: Blog[]
   authors: Author[]
   comments: Comment[]
-}
-
-export type ModalInnerProps = {
-  form: FormInstance
-  visible: boolean
-  onCancel: () => void
-  onOk: () => void
-}
-
-export type ModalProps = Omit<ModalInnerProps, 'form' | 'onOk'> & {
-  onOk: (newData?: Data) => void
 }

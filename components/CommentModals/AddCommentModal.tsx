@@ -1,11 +1,8 @@
 import React from 'react'
-import { Form, Modal, Input, Select } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, Input, Select } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
-import { getSnapshot, SnapshotOrInstance } from 'mobx-state-tree'
-import { User } from '../../models/UserStore'
-import { Blog } from '../../models/BlogStore'
 
 export const AddCommentModal = observer(() => {
   const [addCommentForm] = Form.useForm()
@@ -17,45 +14,23 @@ export const AddCommentModal = observer(() => {
   } = useStores()
   const { addModalVisible, toggleAddModalVisible } = commentStore
 
-  React.useEffect(() => {
-    addCommentForm.resetFields()
-  }, [addModalVisible, addCommentForm])
-
   return (
-    <AddCommentModalInner
-      users={getSnapshot(userStore.data)}
-      blogs={getSnapshot(blogStore.data)}
-      form={addCommentForm}
+    <Modal
+      title="add comment"
       visible={addModalVisible}
       onCancel={toggleAddModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await addCommentForm.validateFields()
         if (!values) return
 
         await addComment(values)
+        addCommentForm.resetFields()
         toggleAddModalVisible()
       }}
-    />
-  )
-})
-
-const AddCommentModalInner: React.FC<
-  ModalInnerProps & {
-    users: SnapshotOrInstance<typeof User>[]
-    blogs: SnapshotOrInstance<typeof Blog>[]
-  }
-> = ({ visible, onCancel, form, onOk, users, blogs }) => {
-  return (
-    <Modal
-      destroyOnClose
-      visible={visible}
-      onCancel={onCancel}
-      title="add comment"
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={addCommentForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -79,7 +54,7 @@ const AddCommentModalInner: React.FC<
           ]}
         >
           <Select
-            options={blogs.map(({ id, title }) => ({
+            options={blogStore.data.map(({ id, title }) => ({
               label: `id: ${id}, title: ${title}`,
               value: id,
             }))}
@@ -98,7 +73,7 @@ const AddCommentModalInner: React.FC<
           ]}
         >
           <Select
-            options={users.map(({ id, name }) => ({
+            options={userStore.data.map(({ id, name }) => ({
               label: `id: ${id}, name: ${name}`,
               value: id,
             }))}
@@ -107,4 +82,4 @@ const AddCommentModalInner: React.FC<
       </Form>
     </Modal>
   )
-}
+})

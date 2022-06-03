@@ -6,9 +6,14 @@ import { loadData } from '../../../lib/loadData'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data | String>,
 ) {
   let connection = await getDatabaseConnection()
+  if (!connection) {
+    res.status(500).json('Database connection Error!')
+    return
+  }
+
   let user = new User(req.body)
   await connection.manager.save(user)
   let data = await loadData(connection)

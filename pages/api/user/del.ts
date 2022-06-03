@@ -9,6 +9,12 @@ export default async function handler(
   res: NextApiResponse<Data | String>,
 ) {
   let connection = await getDatabaseConnection()
+
+  if (!connection) {
+    res.status(500).json('Database connection Error!')
+    return
+  }
+
   let user = await connection.manager.findOne(User, {
     relations: ['author'],
     where: [{ id: req.body.id }],

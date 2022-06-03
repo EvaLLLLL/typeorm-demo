@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Modal, InputNumber } from 'antd'
-import { ModalInnerProps } from '../../types'
+import { Form, InputNumber } from 'antd'
+import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '../../models'
 
@@ -9,42 +9,23 @@ export const DelCommentModal = observer(() => {
   const { comment: commentStore, delComment } = useStores()
   const { delModalVisible, toggleDelModalVisible } = commentStore
 
-  React.useEffect(() => {
-    delCommentForm.resetFields()
-  }, [delModalVisible, delCommentForm])
-
   return (
-    <DelCommentModalInner
-      form={delCommentForm}
+    <Modal
+      title="delete comment"
       visible={delModalVisible}
       onCancel={toggleDelModalVisible}
-      onOk={async () => {
+      onSubmit={async () => {
         const values = await delCommentForm.validateFields()
         if (!values) return
 
         await delComment(values.id)
+        delCommentForm.resetFields()
         toggleDelModalVisible()
       }}
-    />
-  )
-})
-
-const DelCommentModalInner: React.FC<ModalInnerProps> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-}) => {
-  return (
-    <Modal
-      title="delete comment"
-      visible={visible}
-      onCancel={onCancel}
-      onOk={onOk}
     >
       <Form
         autoComplete="off"
-        form={form}
+        form={delCommentForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -64,4 +45,4 @@ const DelCommentModalInner: React.FC<ModalInnerProps> = ({
       </Form>
     </Modal>
   )
-}
+})

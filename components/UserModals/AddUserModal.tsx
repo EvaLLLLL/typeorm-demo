@@ -1,35 +1,35 @@
 import React from 'react'
-import { Form, Modal, Input, InputNumber, message } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { Form, Modal, Input, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { UserStore } from '../../models/UserStore'
+import { Instance } from 'mobx-state-tree'
+import { observer } from 'mobx-react-lite'
 
-export const AddUserModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
-  const [addUserForm] = Form.useForm()
+export const AddUserModal = observer<{ store: Instance<typeof UserStore> }>(
+  ({ store: userStore }) => {
+    const [addUserForm] = Form.useForm()
+    const { addModalVisible, toggleAddModalVisible, add } = userStore
 
-  React.useEffect(() => {
-    addUserForm.resetFields()
-  }, [visible, addUserForm])
+    React.useEffect(() => {
+      addUserForm.resetFields()
+    }, [addModalVisible, addUserForm])
 
-  return (
-    <AddUserModalInner
-      form={addUserForm}
-      visible={visible}
-      onCancel={onCancel}
-      onOk={async () => {
-        const values = await addUserForm.validateFields()
-        if (!values) return
+    return (
+      <AddUserModalInner
+        form={addUserForm}
+        visible={addModalVisible}
+        onCancel={toggleAddModalVisible}
+        onOk={async () => {
+          const values = await addUserForm.validateFields()
+          if (!values) return
 
-        const { data: newData } = await axios.post('/api/user/add', values)
-        message.success('添加成功')
-        onOk(newData)
-      }}
-    />
-  )
-}
+          add(values)
+          toggleAddModalVisible()
+        }}
+      />
+    )
+  },
+)
 
 const AddUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

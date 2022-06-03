@@ -1,35 +1,35 @@
 import React from 'react'
-import { Form, Modal, Input, InputNumber, message } from 'antd'
-import axios from 'axios'
-import { ModalProps, ModalInnerProps } from '../../types'
+import { Form, Modal, Input, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { Instance } from 'mobx-state-tree'
+import { UserStore } from '../../models/UserStore'
 
-export const UpdateUserModal: React.FC<ModalProps> = ({
-  onOk,
-  visible,
-  onCancel,
-}) => {
-  const [updateUserForm] = Form.useForm()
+export const UpdateUserModal = observer<{ store: Instance<typeof UserStore> }>(
+  ({ store: userStore }) => {
+    const [updateUserForm] = Form.useForm()
+    const { updateModalVisible, toggleUpdateModalVisible, update } = userStore
 
-  React.useEffect(() => {
-    updateUserForm.resetFields()
-  }, [visible, updateUserForm])
+    React.useEffect(() => {
+      updateUserForm.resetFields()
+    }, [updateModalVisible, updateUserForm])
 
-  return (
-    <UpdateUserModalInner
-      form={updateUserForm}
-      visible={visible}
-      onCancel={onCancel}
-      onOk={async () => {
-        const values = await updateUserForm.validateFields()
-        if (!values) return
+    return (
+      <UpdateUserModalInner
+        form={updateUserForm}
+        visible={updateModalVisible}
+        onCancel={toggleUpdateModalVisible}
+        onOk={async () => {
+          const values = await updateUserForm.validateFields()
+          if (!values) return
 
-        const { data: newData } = await axios.post('/api/user/update', values)
-        onOk(newData)
-        message.success('更新成功')
-      }}
-    />
-  )
-}
+          await update(values)
+          toggleUpdateModalVisible()
+        }}
+      />
+    )
+  },
+)
 
 export const UpdateUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

@@ -1,67 +1,42 @@
 import { Button } from 'antd'
 import React from 'react'
 import { AddUserModal, DelUserModal, UpdateUserModal } from './UserModals'
-import { ActionType, Data } from '../types'
+import { ActionType } from '../types'
+import { Instance } from 'mobx-state-tree'
+import { UserStore } from '../models/UserStore'
+import { observer } from 'mobx-react-lite'
 
-export const UserActions: React.FC<{ updateData: (newData: Data) => void }> = ({
-  updateData,
-}) => {
-  const [addUserModalVisible, setAddUserModalVisible] = React.useState(false)
-  const [delUserModalVisible, setDelUserModalVisible] = React.useState(false)
-  const [updateUserModalVisible, setUpdateUserModalVisible] =
-    React.useState(false)
+export const UserActions = observer<{ store: Instance<typeof UserStore> }>(
+  ({ store: userStore }) => {
+    return (
+      <>
+        <AddUserModal store={userStore} />
+        <DelUserModal store={userStore} />
+        <UpdateUserModal store={userStore} />
 
-  return (
-    <>
-      <AddUserModal
-        visible={addUserModalVisible}
-        onCancel={() => setAddUserModalVisible(false)}
-        onOk={newData => {
-          updateData(newData)
-          setAddUserModalVisible(false)
-        }}
-      />
+        {[ActionType.Add, ActionType.Del, ActionType.Update].map(type => (
+          <Button
+            key={type}
+            type="primary"
+            style={{ margin: '0 2px' }}
+            onClick={() => {
+              if (type === ActionType.Add) {
+                userStore.toggleAddModalVisible()
+              }
 
-      <DelUserModal
-        visible={delUserModalVisible}
-        onCancel={() => setDelUserModalVisible(false)}
-        onOk={newData => {
-          updateData(newData)
-          setDelUserModalVisible(false)
-        }}
-      />
+              if (type === ActionType.Del) {
+                userStore.toggleDelModalVisible()
+              }
 
-      <UpdateUserModal
-        visible={updateUserModalVisible}
-        onCancel={() => setUpdateUserModalVisible(false)}
-        onOk={newData => {
-          updateData(newData)
-          setUpdateUserModalVisible(false)
-        }}
-      />
-
-      {[ActionType.Add, ActionType.Del, ActionType.Update].map(type => (
-        <Button
-          key={type}
-          type="primary"
-          style={{ margin: '0 2px' }}
-          onClick={() => {
-            if (type === ActionType.Add) {
-              setAddUserModalVisible(true)
-            }
-
-            if (type === ActionType.Del) {
-              setDelUserModalVisible(true)
-            }
-
-            if (type === ActionType.Update) {
-              setUpdateUserModalVisible(true)
-            }
-          }}
-        >
-          {type}
-        </Button>
-      ))}
-    </>
-  )
-}
+              if (type === ActionType.Update) {
+                userStore.toggleUpdateModalVisible()
+              }
+            }}
+          >
+            {type}
+          </Button>
+        ))}
+      </>
+    )
+  },
+)

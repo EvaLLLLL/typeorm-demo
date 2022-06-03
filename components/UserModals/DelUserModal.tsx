@@ -1,41 +1,35 @@
 import React from 'react'
 import { Form, Modal, InputNumber, message } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { Instance } from 'mobx-state-tree'
+import { UserStore } from '../../models/UserStore'
 
-export const DelUserModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
-  const [delUserForm] = Form.useForm()
+export const DelUserModal = observer<{ store: Instance<typeof UserStore> }>(
+  ({ store: userStore }) => {
+    const [delUserForm] = Form.useForm()
+    const { delModalVisible, toggleDelModalVisible, del } = userStore
 
-  React.useEffect(() => {
-    delUserForm.resetFields()
-  }, [visible, delUserForm])
+    React.useEffect(() => {
+      delUserForm.resetFields()
+    }, [delModalVisible, delUserForm])
 
-  return (
-    <DelUserModalInner
-      form={delUserForm}
-      visible={visible}
-      onCancel={onCancel}
-      onOk={async () => {
-        const values = await delUserForm.validateFields()
-        if (!values) return
+    return (
+      <DelUserModalInner
+        form={delUserForm}
+        visible={delModalVisible}
+        onCancel={toggleDelModalVisible}
+        onOk={async () => {
+          const values = await delUserForm.validateFields()
+          if (!values) return
 
-        axios
-          .post('/api/user/del', values)
-          .then(({ data: newData }) => {
-            message.success('删除成功')
-            onOk(newData)
-          })
-          .catch(err => {
-            message.error(err.response.data)
-          })
-      }}
-    />
-  )
-}
+          del(values.id)
+          toggleDelModalVisible()
+        }}
+      />
+    )
+  },
+)
 
 const DelUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

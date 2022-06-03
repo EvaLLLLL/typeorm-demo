@@ -1,35 +1,33 @@
 import React from 'react'
-import { Form, Modal, Input, InputNumber, message } from 'antd'
-import axios from 'axios'
-import { ModalProps, ModalInnerProps } from '../../types'
+import { Form, Modal, Input, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const UpdateAuthorModal: React.FC<ModalProps> = ({
-  onOk,
-  visible,
-  onCancel,
-}) => {
+export const UpdateAuthorModal = observer(() => {
   const [updateAuthorForm] = Form.useForm()
+  const { author: authorStore, updateAuthor } = useStores()
+  const { updateModalVisible, toggleUpdateModalVisible } = authorStore
 
   React.useEffect(() => {
     updateAuthorForm.resetFields()
-  }, [visible, updateAuthorForm])
+  }, [updateModalVisible, updateAuthorForm])
 
   return (
     <UpdateAuthorModalInner
       form={updateAuthorForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={updateModalVisible}
+      onCancel={toggleUpdateModalVisible}
       onOk={async () => {
         const values = await updateAuthorForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/author/update', values)
-        onOk(newData)
-        message.success('更新成功')
+        await updateAuthor(values)
+        toggleUpdateModalVisible()
       }}
     />
   )
-}
+})
 
 export const UpdateAuthorModalInner: React.FC<ModalInnerProps> = ({
   visible,

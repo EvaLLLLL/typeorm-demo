@@ -2,34 +2,32 @@ import React from 'react'
 import { Form, Modal, Input, InputNumber } from 'antd'
 import { ModalInnerProps } from '../../types'
 import { observer } from 'mobx-react-lite'
-import { Instance } from 'mobx-state-tree'
-import { UserStore } from '../../models/UserStore'
+import { useStores } from '../../models'
 
-export const UpdateUserModal = observer<{ store: Instance<typeof UserStore> }>(
-  ({ store: userStore }) => {
-    const [updateUserForm] = Form.useForm()
-    const { updateModalVisible, toggleUpdateModalVisible, update } = userStore
+export const UpdateUserModal = observer(() => {
+  const [updateUserForm] = Form.useForm()
+  const { user: userStore, updateUser } = useStores()
+  const { updateModalVisible, toggleUpdateModalVisible } = userStore
 
-    React.useEffect(() => {
-      updateUserForm.resetFields()
-    }, [updateModalVisible, updateUserForm])
+  React.useEffect(() => {
+    updateUserForm.resetFields()
+  }, [updateModalVisible, updateUserForm])
 
-    return (
-      <UpdateUserModalInner
-        form={updateUserForm}
-        visible={updateModalVisible}
-        onCancel={toggleUpdateModalVisible}
-        onOk={async () => {
-          const values = await updateUserForm.validateFields()
-          if (!values) return
+  return (
+    <UpdateUserModalInner
+      form={updateUserForm}
+      visible={updateModalVisible}
+      onCancel={toggleUpdateModalVisible}
+      onOk={async () => {
+        const values = await updateUserForm.validateFields()
+        if (!values) return
 
-          await update(values)
-          toggleUpdateModalVisible()
-        }}
-      />
-    )
-  },
-)
+        await updateUser(values)
+        toggleUpdateModalVisible()
+      }}
+    />
+  )
+})
 
 export const UpdateUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

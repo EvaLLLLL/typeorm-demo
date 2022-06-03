@@ -9,7 +9,7 @@ import { Comment } from '../src/entity/Comment'
 import { DataItems } from '../components/DataItems'
 import { loadData } from '../lib/loadData'
 import { getDatabaseConnection } from '../lib/getDatabaseConnection'
-import { RootStore } from '../models'
+import { RootStore, StoreContext } from '../models'
 
 const Home: NextPage<{
   blogs: Blog[]
@@ -18,12 +18,15 @@ const Home: NextPage<{
   comments: Comment[]
 }> = ({ blogs, users, authors, comments }) => {
   const store = RootStore.create({
-    user: {
-      data: users,
-    },
+    user: { data: users },
+    author: { data: authors },
   })
 
-  return <DataItems store={store} />
+  return (
+    <StoreContext.Provider value={store}>
+      <DataItems />
+    </StoreContext.Provider>
+  )
 }
 
 export default Home

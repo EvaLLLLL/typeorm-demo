@@ -1,35 +1,33 @@
 import React from 'react'
-import { Form, Modal, InputNumber, message } from 'antd'
+import { Form, Modal, InputNumber } from 'antd'
 import { ModalInnerProps } from '../../types'
 import { observer } from 'mobx-react-lite'
-import { Instance } from 'mobx-state-tree'
-import { UserStore } from '../../models/UserStore'
+import { useStores } from '../../models'
 
-export const DelUserModal = observer<{ store: Instance<typeof UserStore> }>(
-  ({ store: userStore }) => {
-    const [delUserForm] = Form.useForm()
-    const { delModalVisible, toggleDelModalVisible, del } = userStore
+export const DelUserModal = observer(() => {
+  const [delUserForm] = Form.useForm()
+  const { user: userStore, delUser } = useStores()
+  const { delModalVisible, toggleDelModalVisible } = userStore
 
-    React.useEffect(() => {
-      delUserForm.resetFields()
-    }, [delModalVisible, delUserForm])
+  React.useEffect(() => {
+    delUserForm.resetFields()
+  }, [delModalVisible, delUserForm])
 
-    return (
-      <DelUserModalInner
-        form={delUserForm}
-        visible={delModalVisible}
-        onCancel={toggleDelModalVisible}
-        onOk={async () => {
-          const values = await delUserForm.validateFields()
-          if (!values) return
+  return (
+    <DelUserModalInner
+      form={delUserForm}
+      visible={delModalVisible}
+      onCancel={toggleDelModalVisible}
+      onOk={async () => {
+        const values = await delUserForm.validateFields()
+        if (!values) return
 
-          del(values.id)
-          toggleDelModalVisible()
-        }}
-      />
-    )
-  },
-)
+        await delUser(values.id)
+        toggleDelModalVisible()
+      }}
+    />
+  )
+})
 
 const DelUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

@@ -1,35 +1,33 @@
 import React from 'react'
 import { Form, Modal, Input, InputNumber } from 'antd'
 import { ModalInnerProps } from '../../types'
-import { UserStore } from '../../models/UserStore'
-import { Instance } from 'mobx-state-tree'
 import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const AddUserModal = observer<{ store: Instance<typeof UserStore> }>(
-  ({ store: userStore }) => {
-    const [addUserForm] = Form.useForm()
-    const { addModalVisible, toggleAddModalVisible, add } = userStore
+export const AddUserModal = observer(() => {
+  const [addUserForm] = Form.useForm()
+  const { user: userStore, addUser } = useStores()
+  const { addModalVisible, toggleAddModalVisible } = userStore
 
-    React.useEffect(() => {
-      addUserForm.resetFields()
-    }, [addModalVisible, addUserForm])
+  React.useEffect(() => {
+    addUserForm.resetFields()
+  }, [addModalVisible, addUserForm])
 
-    return (
-      <AddUserModalInner
-        form={addUserForm}
-        visible={addModalVisible}
-        onCancel={toggleAddModalVisible}
-        onOk={async () => {
-          const values = await addUserForm.validateFields()
-          if (!values) return
+  return (
+    <AddUserModalInner
+      form={addUserForm}
+      visible={addModalVisible}
+      onCancel={toggleAddModalVisible}
+      onOk={async () => {
+        const values = await addUserForm.validateFields()
+        if (!values) return
 
-          add(values)
-          toggleAddModalVisible()
-        }}
-      />
-    )
-  },
-)
+        await addUser(values)
+        toggleAddModalVisible()
+      }}
+    />
+  )
+})
 
 const AddUserModalInner: React.FC<ModalInnerProps> = ({
   visible,

@@ -1,46 +1,40 @@
 import React from 'react'
-import axios from 'axios'
-import { Form, Modal, Input, message, Select } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import { User } from '../../src/entity/User'
+import { Form, Modal, Input, Select } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
+import { getSnapshot, SnapshotOrInstance } from 'mobx-state-tree'
+import { User } from '../../models/UserStore'
 
-export const AddAuthorModal: React.FC<ModalProps & { users: User[] }> = ({
-  visible,
-  onCancel,
-  onOk,
-  users,
-}) => {
+export const AddAuthorModal = observer(() => {
   const [addAuthorForm] = Form.useForm()
+  const { author: authorStore, user: userStore, addAuthor } = useStores()
+  const { addModalVisible, toggleAddModalVisible } = authorStore
 
   React.useEffect(() => {
     addAuthorForm.resetFields()
-  }, [visible, addAuthorForm])
+  }, [addModalVisible, addAuthorForm])
 
   return (
     <AddUserModalInner
-      users={users}
+      users={getSnapshot(userStore.data)}
       form={addAuthorForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={addModalVisible}
+      onCancel={toggleAddModalVisible}
       onOk={async () => {
         const values = await addAuthorForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/author/add', values)
-        message.success('添加成功')
-        onOk(newData)
+        addAuthor(values)
+        toggleAddModalVisible()
       }}
     />
   )
-}
+})
 
-const AddUserModalInner: React.FC<ModalInnerProps & { users: User[] }> = ({
-  visible,
-  onCancel,
-  form,
-  onOk,
-  users,
-}) => {
+const AddUserModalInner: React.FC<
+  ModalInnerProps & { users: SnapshotOrInstance<typeof User>[] }
+> = ({ visible, onCancel, form, onOk, users }) => {
   return (
     <Modal
       destroyOnClose
@@ -73,10 +67,12 @@ const AddUserModalInner: React.FC<ModalInnerProps & { users: User[] }> = ({
           ]}
         >
           <Select
-            options={users.map(({ id, name }) => ({
-              label: `id: ${id}, name: ${name}`,
-              value: id,
-            }))}
+            options={users
+              .filter(({ author }) => !author)
+              .map(({ id, name }) => ({
+                label: `id: ${id}, name: ${name}`,
+                value: id,
+              }))}
           />
         </Form.Item>
       </Form>

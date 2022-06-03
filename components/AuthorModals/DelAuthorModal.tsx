@@ -1,35 +1,32 @@
 import React from 'react'
-import { Form, Modal, InputNumber, message } from 'antd'
-import { ModalInnerProps, ModalProps } from '../../types'
-import axios from 'axios'
+import { Form, Modal, InputNumber } from 'antd'
+import { ModalInnerProps } from '../../types'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '../../models'
 
-export const DelAuthorModal: React.FC<ModalProps> = ({
-  visible,
-  onCancel,
-  onOk,
-}) => {
+export const DelAuthorModal = observer(() => {
   const [delAuthorForm] = Form.useForm()
-
+  const { author: authorStore, delAuthor } = useStores()
+  const { delModalVisible, toggleDelModalVisible } = authorStore
   React.useEffect(() => {
     delAuthorForm.resetFields()
-  }, [visible, delAuthorForm])
+  }, [delModalVisible, delAuthorForm])
 
   return (
     <DelAuthorModalInner
       form={delAuthorForm}
-      visible={visible}
-      onCancel={onCancel}
+      visible={delModalVisible}
+      onCancel={toggleDelModalVisible}
       onOk={async () => {
         const values = await delAuthorForm.validateFields()
         if (!values) return
 
-        const { data: newData } = await axios.post('/api/author/del', values)
-        message.success('删除成功')
-        onOk(newData)
+        await delAuthor(values.id)
+        toggleDelModalVisible()
       }}
     />
   )
-}
+})
 
 const DelAuthorModalInner: React.FC<ModalInnerProps> = ({
   visible,

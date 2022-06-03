@@ -34,7 +34,7 @@ yarn dev
 
 ### 1、技术栈
 
-Next.js + TypeORM + PostgresSQL
+Next.js + TypeORM + PostgresSQL + mobx-state-tree + antd
 
 ### 2、关联关系
 

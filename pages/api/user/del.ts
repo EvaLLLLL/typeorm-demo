@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
-import { User } from '../../../src/entity/User'
+import { User } from '../../../typeorm/entity/User'
 import { loadData } from '../../../lib/loadData'
 import { Data } from '../../../types'
 
@@ -19,6 +19,8 @@ export default async function handler(
     relations: ['author'],
     where: [{ id: req.body.id }],
   })
+
+  console.log(user)
 
   if (user?.author !== null) {
     res.status(500).json('请先删除所关联 author')

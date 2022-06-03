@@ -41,7 +41,7 @@ export const CommentStore = types
           data,
         )
         updateAll(newData)
-        yield message.success('添加成功')
+        message.success('添加成功')
       }),
 
       delComment: flow(function* (id: number) {
@@ -51,7 +51,7 @@ export const CommentStore = types
         )
 
         updateAll(newData)
-        yield message.success('删除成功')
+        message.success('删除成功')
       }),
     }
   })

@@ -69,7 +69,7 @@ export const BlogStore = types
         })
 
         updateAll(newData)
-        yield message.success('添加成功')
+        message.success('添加成功')
       }),
 
       delBlog: flow(function* (id: number) {
@@ -78,7 +78,7 @@ export const BlogStore = types
         })
 
         updateAll(newData)
-        yield message.success('删除成功')
+        message.success('删除成功')
       }),
 
       findBlog: flow(function* (id: number) {
@@ -90,7 +90,7 @@ export const BlogStore = types
         })
 
         updateAll(newData)
-        yield message.success('查询成功')
+        message.success('查询成功')
       }),
     }
   })

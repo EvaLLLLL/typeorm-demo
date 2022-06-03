@@ -52,7 +52,7 @@ export const AuthorStore = types
         )
 
         updateAll(newData)
-        yield message.success('添加成功')
+        message.success('添加成功')
       }),
 
       delAuthor: flow(function* del(id: number) {
@@ -64,7 +64,7 @@ export const AuthorStore = types
         )
 
         updateAll(newData)
-        yield message.success('删除成功')
+        message.success('删除成功')
       }),
 
       updateAuthor: flow(function* ({
@@ -83,7 +83,7 @@ export const AuthorStore = types
         )
 
         updateAll(newData)
-        yield message.success('更新成功')
+        message.success('更新成功')
       }),
     }
   })

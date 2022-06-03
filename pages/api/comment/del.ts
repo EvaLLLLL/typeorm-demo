@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
 import { loadData } from '../../../lib/loadData'
 import { Data } from '../../../types'
-import { Comment } from '../../../src/entity/Comment'
+import { Comment } from '../../../typeorm/entity/Comment'
 
 export default async function handler(
   req: NextApiRequest,

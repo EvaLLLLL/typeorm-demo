@@ -11,8 +11,8 @@
   "migrations": ["dist/migration/**/*.js"],
   "subscribers": ["dist/subscriber/**/*.js"],
   "cli": {
-    "entitiesDir": "src/entity",
-    "migrationsDir": "src/migration",
-    "subscribersDir": "src/subscriber"
+    "entitiesDir": "typeorm/entity",
+    "migrationsDir": "typeorm/migration",
+    "subscribersDir": "typeorm/subscriber"
   }
 }

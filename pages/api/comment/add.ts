@@ -2,9 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Data } from '../../../types'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
 import { loadData } from '../../../lib/loadData'
-import { Comment } from '../../../src/entity/Comment'
-import { User } from '../../../src/entity/User'
-import { Blog } from '../../../src/entity/Blog'
+import { Comment } from '../../../typeorm/entity/Comment'
+import { User } from '../../../typeorm/entity/User'
+import { Blog } from '../../../typeorm/entity/Blog'
 
 export default async function handler(
   req: NextApiRequest,

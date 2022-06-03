@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Data } from '../../../types'
 import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
 import { loadData } from '../../../lib/loadData'
-import { Author } from '../../../src/entity/Author'
-import { Blog } from '../../../src/entity/Blog'
+import { Author } from '../../../typeorm/entity/Author'
+import { Blog } from '../../../typeorm/entity/Blog'
 
 export default async function handler(
   req: NextApiRequest,

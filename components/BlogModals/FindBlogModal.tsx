@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../models'
+import { useStores } from '../../store'
 
 export const FindBlogModal = observer(() => {
   const [findBlogModal] = Form.useForm()

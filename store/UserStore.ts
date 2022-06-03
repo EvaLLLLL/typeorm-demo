@@ -52,7 +52,7 @@ export const UserStore = types
         )
 
         updateAll(newData)
-        yield message.success('添加成功')
+        message.success('添加成功')
       }),
 
       delUser: flow(function* del(id: number) {
@@ -64,9 +64,9 @@ export const UserStore = types
             },
           )
           updateAll(newData)
-          yield message.success('删除成功')
+          message.success('删除成功')
         } catch (err: any) {
-          yield message.error(err?.response.data)
+          message.error(err?.response.data)
         }
       }),
 
@@ -80,7 +80,7 @@ export const UserStore = types
         )
 
         updateAll(newData)
-        yield message.success('更新成功')
+        message.success('更新成功')
       }),
     }
   })

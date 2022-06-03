@@ -3,7 +3,7 @@ import React from 'react'
 import { ActionTypeEnum } from '../types'
 import { AddBlogModal, DelBlogModal, FindBlogModal } from './BlogModals'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../models'
+import { useStores } from '../store'
 
 export const BlogActions = observer(() => {
   const { blog: blogStore } = useStores()

@@ -8,7 +8,7 @@ import { UserActions } from './UserActions'
 import { observer } from 'mobx-react-lite'
 import { getSnapshot } from 'mobx-state-tree'
 import { AuthorActions } from './AuthorActions'
-import { useStores } from '../models'
+import { useStores } from '../store'
 import { BlogActions } from './BlogActions'
 import { CommentActions } from './CommentActions'
 

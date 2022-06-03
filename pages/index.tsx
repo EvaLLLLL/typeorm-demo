@@ -6,11 +6,11 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { DataItems } from '../components/DataItems'
 import { loadData } from '../lib/loadData'
 import { getDatabaseConnection } from '../lib/getDatabaseConnection'
-import { RootStore, StoreContext } from '../models'
-import { Blog } from '../models/BlogStore'
-import { User } from '../models/UserStore'
-import { Author } from '../models/AuthorStore'
-import { Comment } from '../models/CommentStore'
+import { RootStore, StoreContext } from '../store'
+import { Blog } from '../store/BlogStore'
+import { User } from '../store/UserStore'
+import { Author } from '../store/AuthorStore'
+import { Comment } from '../store/CommentStore'
 
 const Home: NextPage<{
   blogs: Instance<typeof Blog>[]

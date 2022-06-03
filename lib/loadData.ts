@@ -1,7 +1,7 @@
-import { Blog } from '../src/entity/Blog'
-import { User } from '../src/entity/User'
-import { Author } from '../src/entity/Author'
-import { Comment } from '../src/entity/Comment'
+import { Blog } from '../typeorm/entity/Blog'
+import { User } from '../typeorm/entity/User'
+import { Author } from '../typeorm/entity/Author'
+import { Comment } from '../typeorm/entity/Comment'
 import { Connection } from 'typeorm'
 
 const parseData = (data: any) => JSON.parse(JSON.stringify(data))

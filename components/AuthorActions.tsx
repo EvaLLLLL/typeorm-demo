@@ -6,7 +6,7 @@ import {
   DelAuthorModal,
   UpdateAuthorModal,
 } from './AuthorModals'
-import { useStores } from '../models'
+import { useStores } from '../store'
 import { observer } from 'mobx-react-lite'
 
 export const AuthorActions = observer(() => {

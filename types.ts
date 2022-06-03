@@ -1,7 +1,7 @@
-import { Blog } from './src/entity/Blog'
-import { User } from './src/entity/User'
-import { Comment } from './src/entity/Comment'
-import { Author } from './src/entity/Author'
+import { Blog } from './typeorm/entity/Blog'
+import { User } from './typeorm/entity/User'
+import { Comment } from './typeorm/entity/Comment'
+import { Author } from './typeorm/entity/Author'
 
 export enum DataTypeEnum {
   User = 'user',

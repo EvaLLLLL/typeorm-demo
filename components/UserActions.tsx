@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { AddUserModal, DelUserModal, UpdateUserModal } from './UserModals'
 import { ActionTypeEnum } from '../types'
-import { useStores } from '../models'
+import { useStores } from '../store'
 
 export const UserActions = observer(() => {
   const { user: userStore } = useStores()

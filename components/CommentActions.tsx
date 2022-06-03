@@ -3,7 +3,7 @@ import React from 'react'
 import { ActionTypeEnum } from '../types'
 import { AddCommentModal, DelCommentModal } from './CommentModals'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../models'
+import { useStores } from '../store'
 
 export const CommentActions = observer(() => {
   const { comment: commentStore } = useStores()

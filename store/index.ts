@@ -12,21 +12,19 @@ export const RootStore = types
     author: AuthorStore,
     comment: CommentStore,
   })
-  .actions(self => {
-    return {
-      updateAll(newData: {
-        blogs: Instance<typeof Blog>[]
-        users: Instance<typeof User>[]
-        authors: Instance<typeof Author>[]
-        comments: Instance<typeof Comment>[]
-      }) {
-        self.user.data.replace(newData.users)
-        self.author.data.replace(newData.authors)
-        self.blog.data.replace(newData.blogs)
-        self.comment.data.replace(newData.comments)
-      },
-    }
-  })
+  .actions(self => ({
+    updateAll(newData: {
+      blogs: Instance<typeof Blog>[]
+      users: Instance<typeof User>[]
+      authors: Instance<typeof Author>[]
+      comments: Instance<typeof Comment>[]
+    }) {
+      self.user.data.replace(newData.users)
+      self.author.data.replace(newData.authors)
+      self.blog.data.replace(newData.blogs)
+      self.comment.data.replace(newData.comments)
+    },
+  }))
 
 export type Store = typeof RootStore
 

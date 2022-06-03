@@ -1,10 +1,10 @@
 import 'reflect-metadata'
-import { createConnection, getConnectionManager } from 'typeorm'
-import { Blog } from '../src/entity/Blog'
-import { Author } from '../src/entity/Author'
-import { User } from '../src/entity/User'
-import { Comment } from '../src/entity/Comment'
 import config from '../ormconfig.json'
+import { createConnection, getConnectionManager } from 'typeorm'
+import { Blog } from '../typeorm/entity/Blog'
+import { Author } from '../typeorm/entity/Author'
+import { User } from '../typeorm/entity/User'
+import { Comment } from '../typeorm/entity/Comment'
 
 const create = function () {
   try {

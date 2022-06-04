@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { flow, getParent, types } from 'mobx-state-tree'
-import { getApiUrl } from '../lib/views'
+import { getApiUrl } from '../utils/views'
 import { ApiEnum } from '../types'
 import { message } from 'antd'
 import { Store } from './index'

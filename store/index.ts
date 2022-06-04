@@ -32,4 +32,4 @@ export const StoreContext = createContext<Instance<typeof RootStore>>(
   null as any,
 )
 
-export const useStores = () => useContext(StoreContext)
+export const useStore = () => useContext(StoreContext)

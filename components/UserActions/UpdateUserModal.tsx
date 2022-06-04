@@ -2,31 +2,30 @@ import React from 'react'
 import { Form, Input, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
-export const UpdateAuthorModal = observer(() => {
-  const [updateAuthorForm] = Form.useForm()
-  const { author: authorStore } = useStores()
-  const { updateModalVisible, toggleUpdateModalVisible, updateAuthor } =
-    authorStore
+export const UpdateUserModal = observer(() => {
+  const [updateUserForm] = Form.useForm()
+  const { user: userStore } = useStore()
+  const { updateModalVisible, toggleUpdateModalVisible, updateUser } = userStore
 
   return (
     <Modal
+      title="update user name"
       visible={updateModalVisible}
       onCancel={toggleUpdateModalVisible}
-      title="update author name"
       onSubmit={async () => {
-        const values = await updateAuthorForm.validateFields()
+        const values = await updateUserForm.validateFields()
         if (!values) return
 
-        await updateAuthor(values)
-        updateAuthorForm.resetFields()
+        await updateUser(values)
+        updateUserForm.resetFields()
         toggleUpdateModalVisible()
       }}
     >
       <Form
         autoComplete="off"
-        form={updateAuthorForm}
+        form={updateUserForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -37,7 +36,7 @@ export const UpdateAuthorModal = observer(() => {
             {
               type: 'number',
               required: true,
-              message: 'Please input author id',
+              message: 'Please input user id',
             },
           ]}
         >
@@ -46,12 +45,7 @@ export const UpdateAuthorModal = observer(() => {
         <Form.Item
           label="name"
           name="name"
-          rules={[
-            {
-              required: true,
-              message: 'Please input a new author name',
-            },
-          ]}
+          rules={[{ required: true, message: 'Please input a new user name' }]}
         >
           <Input />
         </Form.Item>

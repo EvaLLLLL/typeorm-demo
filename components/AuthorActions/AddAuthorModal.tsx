@@ -2,11 +2,11 @@ import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
 export const AddAuthorModal = observer(() => {
   const [addAuthorForm] = Form.useForm()
-  const { author: authorStore, user: userStore } = useStores()
+  const { author: authorStore, user: userStore } = useStore()
   const { addModalVisible, toggleAddModalVisible, addAuthor } = authorStore
 
   return (

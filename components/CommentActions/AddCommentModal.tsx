@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
 export const AddCommentModal = observer(() => {
   const [addCommentForm] = Form.useForm()
@@ -10,7 +10,7 @@ export const AddCommentModal = observer(() => {
     comment: commentStore,
     user: userStore,
     blog: blogStore,
-  } = useStores()
+  } = useStore()
   const { addModalVisible, toggleAddModalVisible, addComment } = commentStore
 
   return (

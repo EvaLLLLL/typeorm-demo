@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Data } from '../../../types'
-import { getConnection } from '../../../lib/getConnection'
-import { loadData } from '../../../lib/loadData'
+import { getConnection } from '../../../utils/getConnection'
+import { loadData } from '../../../utils/loadData'
 import { Author } from '../../../typeorm/entity/Author'
 import { Blog } from '../../../typeorm/entity/Blog'
 

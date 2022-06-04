@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getConnection } from '../../../lib/getConnection'
-import { loadData } from '../../../lib/loadData'
+import { getConnection } from '../../../utils/getConnection'
+import { loadData } from '../../../utils/loadData'
 import { Author } from '../../../typeorm/entity/Author'
 import { Data } from '../../../types'
 

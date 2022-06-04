@@ -2,30 +2,30 @@ import React from 'react'
 import { Form, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
-export const DelCommentModal = observer(() => {
-  const [delCommentForm] = Form.useForm()
-  const { comment: commentStore } = useStores()
-  const { delModalVisible, toggleDelModalVisible, delComment } = commentStore
+export const DelBlogModal = observer(() => {
+  const [delBlogForm] = Form.useForm()
+  const { blog: blogStore } = useStore()
+  const { delModalVisible, toggleDelModalVisible, delBlog } = blogStore
 
   return (
     <Modal
-      title="delete comment"
+      title="delete blog"
       visible={delModalVisible}
       onCancel={toggleDelModalVisible}
       onSubmit={async () => {
-        const values = await delCommentForm.validateFields()
+        const values = await delBlogForm.validateFields()
         if (!values) return
 
-        await delComment(values.id)
-        delCommentForm.resetFields()
+        await delBlog(values.id)
+        delBlogForm.resetFields()
         toggleDelModalVisible()
       }}
     >
       <Form
         autoComplete="off"
-        form={delCommentForm}
+        form={delBlogForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >

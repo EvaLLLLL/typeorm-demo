@@ -2,11 +2,11 @@ import React from 'react'
 import { Form, Input, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
 export const AddUserModal = observer(() => {
   const [addUserForm] = Form.useForm()
-  const { user: userStore } = useStores()
+  const { user: userStore } = useStore()
   const { addModalVisible, toggleAddModalVisible, addUser } = userStore
 
   return (

@@ -17,7 +17,6 @@ export const getConnection = async () => {
     // @ts-ignore
     connection = await createConnection({
       ...config,
-      name: Math.random(),
       entities: [User, Author, Blog, Comment],
     })
 

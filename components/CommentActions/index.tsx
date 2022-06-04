@@ -1,12 +1,12 @@
 import { Button } from 'antd'
 import React from 'react'
-import { ActionTypeEnum } from '../types'
-import { AddCommentModal, DelCommentModal } from './CommentModals'
-import { observer } from 'mobx-react-lite'
-import { useStores } from '../store'
+import { useStore } from '../../store'
+import { AddCommentModal } from './AddCommentModal'
+import { DelCommentModal } from './DelCommentModal'
+import { ActionTypeEnum } from '../../types'
 
-export const CommentActions = observer(() => {
-  const { comment: commentStore } = useStores()
+export const CommentActions: React.FC = () => {
+  const { comment: commentStore } = useStore()
   const { toggleAddModalVisible, toggleDelModalVisible } = commentStore
   return (
     <>
@@ -33,4 +33,4 @@ export const CommentActions = observer(() => {
       ))}
     </>
   )
-})
+}

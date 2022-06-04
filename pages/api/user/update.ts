@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getConnection } from '../../../lib/getConnection'
+import { getConnection } from '../../../utils/getConnection'
 import { User } from '../../../typeorm/entity/User'
-import { loadData } from '../../../lib/loadData'
+import { loadData } from '../../../utils/loadData'
 
 type Data = {
   users: User[]

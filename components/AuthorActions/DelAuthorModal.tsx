@@ -2,30 +2,30 @@ import React from 'react'
 import { Form, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
-export const DelBlogModal = observer(() => {
-  const [delBlogForm] = Form.useForm()
-  const { blog: blogStore } = useStores()
-  const { delModalVisible, toggleDelModalVisible, delBlog } = blogStore
+export const DelAuthorModal = observer(() => {
+  const [delAuthorForm] = Form.useForm()
+  const { author: authorStore } = useStore()
+  const { delModalVisible, toggleDelModalVisible, delAuthor } = authorStore
 
   return (
     <Modal
-      title="delete blog"
+      title="delete author"
       visible={delModalVisible}
       onCancel={toggleDelModalVisible}
       onSubmit={async () => {
-        const values = await delBlogForm.validateFields()
+        const values = await delAuthorForm.validateFields()
         if (!values) return
 
-        await delBlog(values.id)
-        delBlogForm.resetFields()
+        await delAuthor(values.id)
+        delAuthorForm.resetFields()
         toggleDelModalVisible()
       }}
     >
       <Form
         autoComplete="off"
-        form={delBlogForm}
+        form={delAuthorForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -34,8 +34,8 @@ export const DelBlogModal = observer(() => {
           name="id"
           rules={[
             {
-              required: true,
               type: 'number',
+              required: true,
               message: 'Please input id to delete',
             },
           ]}

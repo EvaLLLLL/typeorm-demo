@@ -2,11 +2,11 @@ import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
 export const AddBlogModal = observer(() => {
   const [addBlogModal] = Form.useForm()
-  const { blog: blogStore, author: authorStores } = useStores()
+  const { blog: blogStore, author: authorStores } = useStore()
   const { addModalVisible, toggleAddModalVisible, addBlog } = blogStore
 
   return (

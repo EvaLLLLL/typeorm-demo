@@ -2,30 +2,31 @@ import React from 'react'
 import { Form, Input, InputNumber } from 'antd'
 import { Modal } from '../Modal'
 import { observer } from 'mobx-react-lite'
-import { useStores } from '../../store'
+import { useStore } from '../../store'
 
-export const UpdateUserModal = observer(() => {
-  const [updateUserForm] = Form.useForm()
-  const { user: userStore } = useStores()
-  const { updateModalVisible, toggleUpdateModalVisible, updateUser } = userStore
+export const UpdateAuthorModal = observer(() => {
+  const [updateAuthorForm] = Form.useForm()
+  const { author: authorStore } = useStore()
+  const { updateModalVisible, toggleUpdateModalVisible, updateAuthor } =
+    authorStore
 
   return (
     <Modal
-      title="update user name"
       visible={updateModalVisible}
       onCancel={toggleUpdateModalVisible}
+      title="update author name"
       onSubmit={async () => {
-        const values = await updateUserForm.validateFields()
+        const values = await updateAuthorForm.validateFields()
         if (!values) return
 
-        await updateUser(values)
-        updateUserForm.resetFields()
+        await updateAuthor(values)
+        updateAuthorForm.resetFields()
         toggleUpdateModalVisible()
       }}
     >
       <Form
         autoComplete="off"
-        form={updateUserForm}
+        form={updateAuthorForm}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
       >
@@ -36,7 +37,7 @@ export const UpdateUserModal = observer(() => {
             {
               type: 'number',
               required: true,
-              message: 'Please input user id',
+              message: 'Please input author id',
             },
           ]}
         >
@@ -45,7 +46,12 @@ export const UpdateUserModal = observer(() => {
         <Form.Item
           label="name"
           name="name"
-          rules={[{ required: true, message: 'Please input a new user name' }]}
+          rules={[
+            {
+              required: true,
+              message: 'Please input a new author name',
+            },
+          ]}
         >
           <Input />
         </Form.Item>

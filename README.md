@@ -1,6 +1,6 @@
 # TypeORM demo
 
-## [预览地址](http://evalearn.top/)
+## 预览地址: http://evalearn.top/
 
 ## 运行步骤:
 

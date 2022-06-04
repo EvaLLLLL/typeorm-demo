@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev & babel -w ./typeorm --out-dir dist --extensions .ts,.tsx",
-    "build": "next build",
+    "build": "rm -rf dist && babel ./typeorm --out-dir dist --extensions .ts,.tsx && next build",
     "start": "next start",
     "tpo:build": "rm -rf dist && babel ./typeorm --out-dir dist --extensions .ts,.tsx",
     "t:subscriber": "node dist/load.js",

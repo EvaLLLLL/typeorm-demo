@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { flow, getRoot, Instance, types } from 'mobx-state-tree'
+import { flow, getParent, Instance, types } from 'mobx-state-tree'
 import { getApiUrl } from '../lib/views'
 import { ApiEnum } from '../types'
 import { message } from 'antd'
@@ -24,7 +24,7 @@ export const CommentStore = types
     },
   }))
   .actions(self => {
-    const { updateAll } = getRoot<Store>(self)
+    const { updateAll } = getParent<Store>(self)
 
     return {
       toggleAddModalVisible() {

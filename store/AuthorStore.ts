@@ -1,20 +1,22 @@
 import axios from 'axios'
-import { flow, getRoot, types } from 'mobx-state-tree'
+import { flow, getParent, types } from 'mobx-state-tree'
 import { getApiUrl } from '../lib/views'
 import { ApiEnum } from '../types'
 import { message } from 'antd'
 import { Store } from './index'
 
-const ReferenceBlog = types.model('ReferenceBlogs', {
-  id: types.number,
-  title: types.string,
-})
-
 export const Author = types.model('Author', {
   id: types.identifierNumber,
   name: types.string,
   userId: types.number,
-  blogs: types.maybeNull(types.array(ReferenceBlog)),
+  blogs: types.maybeNull(
+    types.array(
+      types.model({
+        id: types.number,
+        title: types.string,
+      }),
+    ),
+  ),
 })
 
 export const AuthorStore = types
@@ -30,7 +32,7 @@ export const AuthorStore = types
     },
   }))
   .actions(self => {
-    const { updateAll } = getRoot<Store>(self)
+    const { updateAll } = getParent<Store>(self)
 
     return {
       toggleAddModalVisible() {

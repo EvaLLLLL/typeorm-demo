@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Data } from '../../../types'
-import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
+import { getConnection } from '../../../lib/getConnection'
 import { loadData } from '../../../lib/loadData'
 import { Comment } from '../../../typeorm/entity/Comment'
 import { User } from '../../../typeorm/entity/User'
@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | String>,
 ) {
-  let connection = await getDatabaseConnection()
+  let connection = await getConnection()
 
   if (!connection) {
     res.status(500).json('Database connection Error!')

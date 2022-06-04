@@ -5,7 +5,7 @@ import { Instance } from 'mobx-state-tree'
 import type { GetServerSideProps, NextPage } from 'next'
 import { DataItems } from '../components/DataItems'
 import { loadData } from '../lib/loadData'
-import { getDatabaseConnection } from '../lib/getDatabaseConnection'
+import { getConnection } from '../lib/getConnection'
 import { RootStore, StoreContext } from '../store'
 import { Blog } from '../store/BlogStore'
 import { User } from '../store/UserStore'
@@ -35,7 +35,7 @@ const Home: NextPage<{
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const connection = await getDatabaseConnection()
+  const connection = await getConnection()
   const data = await loadData(connection)
 
   return {

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getDatabaseConnection } from '../../../lib/getDatabaseConnection'
+import { getConnection } from '../../../lib/getConnection'
 import { User } from '../../../typeorm/entity/User'
 import { loadData } from '../../../lib/loadData'
 import { Data } from '../../../types'
@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | String>,
 ) {
-  let connection = await getDatabaseConnection()
+  let connection = await getConnection()
 
   if (!connection) {
     res.status(500).json('Database connection Error!')
@@ -19,8 +19,6 @@ export default async function handler(
     relations: ['author'],
     where: [{ id: req.body.id }],
   })
-
-  console.log(user)
 
   if (user?.author !== null) {
     res.status(500).json('请先删除所关联 author')

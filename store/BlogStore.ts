@@ -82,7 +82,6 @@ export const BlogStore = types
       }),
 
       findBlog: flow(function* (id: number) {
-        console.log(id)
         const { data: newData } = yield axios.get(getApiUrl(ApiEnum.FindBlog), {
           params: {
             id,
